@@ -29,16 +29,19 @@
         <!--Imagen barra navegacion-->
         <Image Grid.Column="0" Source="../images/SportFIT_logo.PNG" Width="150" Height="150" Margin="0,15,0,0"
        HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        
+
         <TextBlock Foreground="{StaticResource TextColor}"  HorizontalAlignment="Center" Height="88" Margin="0,170,0,0" TextAlignment="Center" FontSize="70" TextWrapping="Wrap" Text="SportFIT" VerticalAlignment="Top" Width="282"/>
-        
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-      
+
+        <!-- Contenido en la segunda columna (Columna 1) -->
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- Imagen grande -->
             <Image Source="../images/SportFIT_logo.PNG" Width="400" Height="390" />
 
-            <!-- Texto "SportFIT" -->
-            <TextBlock Text="Sport" FontSize="24" FontWeight="Bold" Foreground="#134f5c" Margin="0,10,0,0" Width="73"/>
-            <TextBlock Text="FIT" FontSize="24" FontWeight="Bold" Foreground="#fd923b" Width="46"/>
+            <!-- Texto "Sport" y "FIT" -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <TextBlock Text="Sport" FontSize="72" FontWeight="Bold" Foreground="#134f5c" Margin="0,0,10,0"/>
+                <TextBlock Text="FIT" FontSize="72" FontWeight="Bold" Foreground="#fd923b" />
+            </StackPanel>
         </StackPanel>
 
     </Grid>
