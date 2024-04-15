@@ -1,0 +1,80 @@
+﻿<Window x:Class="SportFIT.Views.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SportFIT.Views"
+        mc:Ignorable="d"
+        Title="SportFIT" Height="550" Width="850"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundColorBrush}"
+        Icon="../images/SportFIT_logo.ico">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="165"/>
+            <!-- Fila para la imagen -->
+            <RowDefinition Height="Auto" MinHeight="31.923"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Fila para el texto "Sport FIT" -->
+        </Grid.RowDefinitions>
+
+        <!-- Imagen más grande centrada en la primera fila -->
+        <Image Source="../images/SportFIT_logo.PNG" Width="150" Height="150" Margin="0,15,0,0"
+               HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+        <!-- Texto "Sport FIT" en una línea en la segunda fila -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Width="96" Margin="0,0,0,0">
+            <TextBlock Text="Sport" FontSize="24" FontWeight="Bold" Foreground="#134f5c" Height="33"/>
+            <TextBlock Text="FIT" FontSize="24" FontWeight="Bold" Foreground="#fd923b" Height="33"/>
+        </StackPanel>
+        <TextBlock Grid.Row="2" Text="Usuario" FontWeight="Bold" Foreground="#134f5c" Height="15" Width="200" Margin="0,30,0,0"/>
+        <TextBox Grid.Row="3" Width="200" Text="{Binding Usuario}" Foreground="#134f5c" x:Name="txtUsuario"
+                 HorizontalAlignment="Center" 
+                 BorderBrush="#134f5c" Height="28"
+                 BorderThickness="0,0,0,1" Padding="20,5,2,0">
+            <TextBox.Background>
+                <ImageBrush ImageSource="../images/iconUser.png" Stretch="None" AlignmentX="Left" />
+            </TextBox.Background>
+        </TextBox>
+        <TextBlock Grid.Row="4" Text="Contraseña" FontWeight="Bold" Foreground="#134f5c" Height="15" Width="200" Margin="0,30,0,0"/>
+        <PasswordBox Grid.Row="5" Width="200" FontWeight="Medium"
+                 HorizontalAlignment="Center" x:Name="txtPassword"
+                 BorderBrush="#134f5c" Height="28"
+                 BorderThickness="0,0,0,1" Padding="20,5,2,0">
+            <PasswordBox.Background>
+                <ImageBrush ImageSource="../images/iconKey.png" Stretch="None" AlignmentX="Left" />
+            </PasswordBox.Background>
+        </PasswordBox>
+        <TextBlock x:Name="txtError" Grid.Row="6" FontWeight="Medium" Text="{Binding ErrorMessage}" FontSize="10" Foreground="#D7596D" Height="15" Width="200" Margin="0,10,0,0"/>
+        <Button x:Name="btnLogin" Grid.Row="7" 
+                Width="230" HorizontalAlignment="Center" 
+                Height="40" Margin="0,20,0,10"
+                Content="Iniciar Sesión" Click="btnLogin_Click" BorderThickness="1,1,0,1" >
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#f6b26b" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#E18942"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="150" Height="30" CornerRadius="9" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>
