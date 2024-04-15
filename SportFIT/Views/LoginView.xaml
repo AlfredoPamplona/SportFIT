@@ -8,7 +8,7 @@
         Title="SportFIT" Height="550" Width="850"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource BackgroundColorBrush}"
+        Background="{StaticResource BackgroundColor}"
         Icon="../images/SportFIT_logo.ico">
 
     <Grid>
@@ -59,7 +59,7 @@
                 Content="Iniciar Sesión" Click="btnLogin_Click" BorderThickness="1,1,0,1" >
             <Button.Style>
                 <Style TargetType="Button">
-                    <Setter Property="Background" Value="#f6b26b" />
+                    <Setter Property="Background" Value="#F6B26B" />
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="#E18942"/>
