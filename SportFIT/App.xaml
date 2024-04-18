@@ -4,9 +4,11 @@
              xmlns:local="clr-namespace:SportFIT"
              StartupUri="Views/MainView.xaml">
     <Application.Resources>
-        <SolidColorBrush x:Key="BackgroundColor" Color="#a4dce5" />
-        <SolidColorBrush x:Key="NavegationColor" Color="#134F5C" />
-        <SolidColorBrush x:Key="TextColor" Color="#EEEEEE"/>
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Colores.xaml"/>
+                <ResourceDictionary Source="/Styles/StylesButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

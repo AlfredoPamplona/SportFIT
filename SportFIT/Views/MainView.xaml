@@ -4,11 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:SportFIT.Views"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         Background="{StaticResource BackgroundColor}"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Icon="../images/SportFIT_logo.ico"
         d:DesignHeight="600" d:DesignWidth="1000">
+
     <Grid>
         <Grid.Resources>
             <!-- Define el color que quieres usar -->
@@ -43,6 +45,24 @@
                 <TextBlock Text="FIT" FontSize="72" FontWeight="Bold" Foreground="#fd923b" />
             </StackPanel>
         </StackPanel>
+
+        <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnNaranja}">
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="Table" Style="{StaticResource menuButtonIcon}"/>
+                <TextBlock Text="Reservas" Style="{StaticResource menuButtinText}"/>
+
+            </StackPanel>
+
+        </RadioButton>
+        <!--<RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnGris}">
+            <StackPanel Orientation="Horizontal">
+                <fa:IconImage Icon="Building" Style="{StaticResource menuButtonIcon}"/>
+                <TextBlock Text="Instalaciones" Style="{StaticResource menuButtinText}"/>
+
+            </StackPanel>
+
+        </RadioButton>-->
+
 
     </Grid>
 </Window>

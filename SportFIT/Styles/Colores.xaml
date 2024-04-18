@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="BackgroundColor" Color="#a4dce5" />
+    <SolidColorBrush x:Key="NavegationColor" Color="#134F5C" />
+    <SolidColorBrush x:Key="TextColor" Color="#EEEEEE"/>
+    <SolidColorBrush x:Key="MouseOverColor" Color="#CCCCCC"/>
+    <SolidColorBrush x:Key="BtnNaranja" Color="#FD923B"/>
+    <SolidColorBrush x:Key="BtnGris" Color="#94ADC6"/>
+</ResourceDictionary>
