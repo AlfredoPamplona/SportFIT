@@ -9,9 +9,9 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Icon="../images/SportFIT_logo.ico"
-        d:DesignHeight="600" d:DesignWidth="1000">
+        d:DesignHeight="1000" d:DesignWidth="1500">
 
-    <Grid>
+    <Grid Margin="0,0,0,-6">
         <Grid.Resources>
             <!-- Define el color que quieres usar -->
             <SolidColorBrush x:Key="NavigationColor" Color="#134F5C" />
@@ -46,22 +46,68 @@
             </StackPanel>
         </StackPanel>
 
-        <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnNaranja}">
-            <StackPanel Orientation="Horizontal">
-                <fa:IconImage Icon="Table" Style="{StaticResource menuButtonIcon}"/>
-                <TextBlock Text="Reservas" Style="{StaticResource menuButtinText}"/>
 
-            </StackPanel>
+        <!-- Botones -->
+        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="0,280,0,0">
+            <!-- Botón Reservas -->
+            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnNaranja}">
+                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                    <fa:IconImage Icon="Table" Style="{StaticResource menuButtonIcon}"/>
+                    <TextBlock Text="Reservas" Style="{StaticResource menuButtonText}"/>
+                </StackPanel>
+            </RadioButton>
 
-        </RadioButton>
-        <!--<RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnGris}">
-            <StackPanel Orientation="Horizontal">
-                <fa:IconImage Icon="Building" Style="{StaticResource menuButtonIcon}"/>
-                <TextBlock Text="Instalaciones" Style="{StaticResource menuButtinText}"/>
+            <!-- Botón Instalaciones -->
+            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnGris}">
+                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                    <fa:IconImage Icon="Building" Style="{StaticResource menuButtonIcon}"/>
+                    <TextBlock Text="Instalaciones" Style="{StaticResource menuButtonText}"/>
+                </StackPanel>
+            </RadioButton>
 
-            </StackPanel>
+            <!-- Botón Actividades -->
+            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnAzul}">
+                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                    <fa:IconImage Icon="Medal" Style="{StaticResource menuButtonIcon}"/>
+                    <TextBlock Text="Actividades" Style="{StaticResource menuButtonText}"/>
+                </StackPanel>
+            </RadioButton>
 
-        </RadioButton>-->
+            <!-- Botón Estadísticas -->
+            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnAzulClaro}">
+                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                    <fa:IconImage Icon="ChartColumn" Style="{StaticResource menuButtonIcon}"/>
+                    <TextBlock Text="Estadísticas" Style="{StaticResource menuButtonText}"/>
+                </StackPanel>
+            </RadioButton>
+
+            <!-- Espacio grande -->
+            <Rectangle Height="168"/>
+
+            <!-- Botón Ajustes -->
+            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}">
+                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                    <fa:IconImage Icon="ScrewdriverWrench" Style="{StaticResource menuButtonIcon}"/>
+                    <TextBlock Text="Ajustes" Style="{StaticResource menuButtonText}"/>
+                </StackPanel>
+            </RadioButton>
+
+            <!-- Botón Cambiar Usuario -->
+            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}">
+                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                    <fa:IconImage Icon="UserCircle" Style="{StaticResource menuButtonIcon}"/>
+                    <TextBlock Text="Cambiar Usuario" Style="{StaticResource menuButtonText}"/>
+                </StackPanel>
+            </RadioButton>
+
+            <!-- Botón Cerrar Sesión -->
+            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}">
+                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                    <fa:IconImage Icon="SignOutAlt" Style="{StaticResource menuButtonIcon}"/>
+                    <TextBlock Text="Cerrar Sesión" Style="{StaticResource menuButtonText}"/>
+                </StackPanel>
+            </RadioButton>
+        </StackPanel>
 
 
     </Grid>

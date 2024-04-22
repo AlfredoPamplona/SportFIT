@@ -2,49 +2,62 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp">
 
+    <!-- Estilos para los botones -->
     <Style x:Key="menuButton" TargetType="RadioButton">
         <Setter Property="Height" Value="50"/>
-        <Setter Property="Margin" Value="5,0,0,5"/>
+        <Setter Property="Margin" Value="0,0,0,5"/>
         <Setter Property="Background" Value="Transparent"/>
-        <!--<Setter Property="Foreground" Value="{StaticResource TextColor}"/>-->
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Border Background="{StaticResource NavegationColor}"
-                            BorderThickness="4,0,0,0"
-                            BorderBrush="{StaticResource TextColor}">
+                    <Border x:Name="Border" Background="{TemplateBinding Background}">
                         <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Trigger para IsMouseOver -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource MouseOverColor}"/>
+                            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+                            <Setter Property="Tag" Value="{StaticResource MouseOverColor}"/>
+                        </Trigger>
+                        <!-- Trigger para IsChecked -->
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource MouseOverColor}"/>
+                            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+                            <Setter Property="Tag" Value="{StaticResource MouseOverColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
         <Style.Triggers>
+            <!-- Trigger para IsMouseOver -->
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Margin" Value="0,0,0,5"/>
-                <Setter Property="Background" Value="{StaticResource MouseOverColor}"/>
                 <Setter Property="Foreground" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
                 <Setter Property="BorderBrush" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
             </Trigger>
+            <!-- Trigger para IsChecked -->
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Margin" Value="0,0,0,5"/>
-                <Setter Property="Background" Value="{StaticResource MouseOverColor}"/>
                 <Setter Property="Foreground" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
                 <Setter Property="BorderBrush" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <!-- Estilo del ícono -->
     <Style x:Key="menuButtonIcon" TargetType="fa:IconImage">
-        <Setter Property="Foreground" Value="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
         <Setter Property="Margin" Value="35,0,20,0"/>
-        <Setter Property="Width" Value="22"/>
-        <Setter Property="Height" Value="22"/>
-    </Style>
-    <Style x:Key="menuButtinText" TargetType="TextBlock">
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="32"/>
         <Setter Property="Foreground" Value="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
+    </Style>
+
+    <!-- Estilo del texto -->
+    <Style x:Key="menuButtonText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
         <Setter Property="FontWeight" Value="Medium"/>
-        <Setter Property="FontSize" Value="13.5"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 </ResourceDictionary>

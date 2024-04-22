@@ -7,12 +7,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="81557093-d738-4366-be31-ae678d0cf051" name="Changes" comment="" />
+    <list default="true" id="81557093-d738-4366-be31-ae678d0cf051" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SportFIT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SportFIT/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SportFIT/App.config" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/App.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SportFIT/SportFIT.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/SportFIT.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SportFIT/Styles/Colores.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/Styles/Colores.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SportFIT/Styles/StylesButton.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/Styles/StylesButton.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SportFIT/Views/MainView.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/Views/MainView.xaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="UML Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/Users/Alfredo/Desktop/ALFREDO/GradoSuperior/TFG/SportFIT_App/SportFIT/SportFIT/Styles/Colores.xaml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Alfredo/Desktop/ALFREDO/GradoSuperior/TFG/SportFIT_App/SportFIT/SportFIT/Views/MainView.xaml" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -24,13 +46,16 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;.NET Project.SportFIT.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultPlantUmlFileTemplate&quot;: &quot;UML Class&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -73,12 +98,19 @@
       <workItem from="1712856343817" duration="84000" />
       <workItem from="1712945314005" duration="151000" />
       <workItem from="1712959475669" duration="346000" />
+      <workItem from="1713691855487" duration="273000" />
+      <workItem from="1713692144210" duration="109000" />
+      <workItem from="1713692282710" duration="969000" />
+      <workItem from="1713695389768" duration="108000" />
+      <workItem from="1713695523161" duration="995000" />
+      <workItem from="1713771339198" duration="419000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
