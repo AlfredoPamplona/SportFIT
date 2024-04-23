@@ -11,104 +11,93 @@
         Icon="../images/SportFIT_logo.ico"
         d:DesignHeight="1000" d:DesignWidth="1500">
 
-    <Grid Margin="0,0,0,-6">
-        <Grid.Resources>
-            <!-- Define el color que quieres usar -->
-            <SolidColorBrush x:Key="NavigationColor" Color="#134F5C" />
-        </Grid.Resources>
-
+    <Grid>
         <!-- ColumnDefinitions -->
         <Grid.ColumnDefinitions>
             <!-- Columna 1: Ancho fijo de 380px -->
             <ColumnDefinition Width="380"/>
-
             <!-- Columna 2: Ancho flexible -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Fondo de la primera columna -->
-        <Rectangle Grid.Column="0" Fill="{StaticResource NavigationColor}" />
-        <!--Imagen barra navegacion-->
-        <Image Grid.Column="0" Source="../images/SportFIT_logo.PNG" Width="150" Height="150" Margin="0,15,0,0"
-       HorizontalAlignment="Center" VerticalAlignment="Top"/>
-
-        <TextBlock Foreground="{StaticResource TextColor}"  HorizontalAlignment="Center" Height="88" Margin="0,170,0,0" TextAlignment="Center" FontSize="70" TextWrapping="Wrap" Text="SportFIT" VerticalAlignment="Top" Width="282"/>
-
-        <!-- Contenido en la segunda columna (Columna 1) -->
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <!-- Imagen grande -->
-            <Image Source="../images/SportFIT_logo.PNG" Width="400" Height="390" />
-
-            <!-- Texto "Sport" y "FIT" -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                <TextBlock Text="Sport" FontSize="72" FontWeight="Bold" Foreground="#134f5c" Margin="0,0,10,0"/>
-                <TextBlock Text="FIT" FontSize="72" FontWeight="Bold" Foreground="#fd923b" />
+        <!-- Contenido en la primera columna (Columna 0) -->
+        <StackPanel Grid.Column="0" Background="{StaticResource NavegationColor}">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,10,0,0" Height="280">
+                <!--Imagen barra navegacion-->
+                <Image Grid.Column="0" Source="../images/SportFIT_logo.PNG" Width="150" Height="150" Margin="0,15,0,0"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <TextBlock Foreground="{StaticResource TextColor}" Height="88" TextAlignment="Center" FontSize="70" TextWrapping="Wrap" Text="SportFIT" Width="282"/>
             </StackPanel>
-        </StackPanel>
-
-
-        <!-- Botones -->
-        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="0,280,0,0">
             <!-- Botón Reservas -->
-            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnNaranja}">
+            <RadioButton x:Name="reservasButton" Style="{StaticResource menuButton}" Tag="{StaticResource BtnNaranja}" Click="RadioButton_Click">
                 <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
                     <fa:IconImage Icon="Table" Style="{StaticResource menuButtonIcon}"/>
                     <TextBlock Text="Reservas" Style="{StaticResource menuButtonText}"/>
                 </StackPanel>
             </RadioButton>
 
-            <!-- Botón Instalaciones -->
-            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnGris}">
-                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                    <fa:IconImage Icon="Building" Style="{StaticResource menuButtonIcon}"/>
-                    <TextBlock Text="Instalaciones" Style="{StaticResource menuButtonText}"/>
-                </StackPanel>
-            </RadioButton>
+                <!-- Botón Instalaciones -->
+            <RadioButton x:Name="instalacionesButton" Style="{StaticResource menuButton}" Tag="{StaticResource BtnGris}" Click="RadioButton_Click">
+                    <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                        <fa:IconImage Icon="Building" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Instalaciones" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
 
-            <!-- Botón Actividades -->
-            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnAzul}">
-                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                    <fa:IconImage Icon="Medal" Style="{StaticResource menuButtonIcon}"/>
-                    <TextBlock Text="Actividades" Style="{StaticResource menuButtonText}"/>
-                </StackPanel>
-            </RadioButton>
+                <!-- Botón Actividades -->
+            <RadioButton x:Name="actividadesButton" Style="{StaticResource menuButton}" Tag="{StaticResource BtnAzul}" Click="RadioButton_Click">
+                    <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                        <fa:IconImage Icon="Medal" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Actividades" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
 
-            <!-- Botón Estadísticas -->
-            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource BtnAzulClaro}">
-                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                    <fa:IconImage Icon="ChartColumn" Style="{StaticResource menuButtonIcon}"/>
-                    <TextBlock Text="Estadísticas" Style="{StaticResource menuButtonText}"/>
-                </StackPanel>
-            </RadioButton>
+                <!-- Botón Estadísticas -->
+            <RadioButton x:Name="estadisticasButton" Style="{StaticResource menuButton}" Tag="{StaticResource BtnAzulClaro}" Click="RadioButton_Click">
+                    <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                        <fa:IconImage Icon="ChartColumn" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Estadísticas" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
 
-            <!-- Espacio grande -->
-            <Rectangle Height="168"/>
+                <!-- Espacio grande -->
+                <Rectangle Height="168"/>
 
-            <!-- Botón Ajustes -->
-            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}">
-                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                    <fa:IconImage Icon="ScrewdriverWrench" Style="{StaticResource menuButtonIcon}"/>
-                    <TextBlock Text="Ajustes" Style="{StaticResource menuButtonText}"/>
-                </StackPanel>
-            </RadioButton>
+                <!-- Botón Ajustes -->
+            <RadioButton x:Name="ajustesButton" Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}" Click="RadioButton_Click">
+                    <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                        <fa:IconImage Icon="ScrewdriverWrench" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Ajustes" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
 
-            <!-- Botón Cambiar Usuario -->
-            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}">
-                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                    <fa:IconImage Icon="UserCircle" Style="{StaticResource menuButtonIcon}"/>
-                    <TextBlock Text="Cambiar Usuario" Style="{StaticResource menuButtonText}"/>
-                </StackPanel>
-            </RadioButton>
+                <!-- Botón Cambiar Usuario -->
+            <RadioButton x:Name="cambiarUsuarioButton" Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}" Click="RadioButton_Click">
+                    <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                        <fa:IconImage Icon="UserCircle" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Cambiar Usuario" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
 
-            <!-- Botón Cerrar Sesión -->
-            <RadioButton Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}">
-                <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                    <fa:IconImage Icon="SignOutAlt" Style="{StaticResource menuButtonIcon}"/>
-                    <TextBlock Text="Cerrar Sesión" Style="{StaticResource menuButtonText}"/>
-                </StackPanel>
-            </RadioButton>
+                <!-- Botón Cerrar Sesión -->
+            <RadioButton x:Name="cerrarSesionButton" Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}" Click="RadioButton_Click">
+                    <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
+                        <fa:IconImage Icon="SignOutAlt" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Cerrar Sesión" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
         </StackPanel>
-
+        
+        <!-- Contenido en la segunda columna (Columna 1) -->
+        <StackPanel x:Name="mainGrid" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- Imagen grande -->
+            <Image Source="../images/SportFIT_logo.PNG" Width="400" Height="390" />
+            <!-- Texto "Sport" y "FIT" -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <TextBlock Text="Sport" FontSize="72" FontWeight="Bold" Foreground="#134f5c" Margin="0,0,10,0"/>
+                <TextBlock Text="FIT" FontSize="72" FontWeight="Bold" Foreground="#fd923b" />
+            </StackPanel>
+        </StackPanel>
 
     </Grid>
 </Window>

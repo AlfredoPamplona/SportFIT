@@ -9,9 +9,6 @@
   <component name="ChangeListManager">
     <list default="true" id="81557093-d738-4366-be31-ae678d0cf051" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SportFIT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SportFIT/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SportFIT/App.config" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/App.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SportFIT/SportFIT.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/SportFIT.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SportFIT/Styles/Colores.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/Styles/Colores.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SportFIT/Styles/StylesButton.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/Styles/StylesButton.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SportFIT/Views/MainView.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/Views/MainView.xaml" afterDir="false" />
     </list>
@@ -24,14 +21,30 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="UML Class" />
+        <option value="UML Use Case" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;AlfredoPamplona&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="36e34224-b664-488f-ac4d-aed87e0de81c" />
+        <option name="url" value="https://github.com/AlfredoPamplona/SportFIT.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="mock://C:/Users/Alfredo/Desktop/ALFREDO/GradoSuperior/TFG/SportFIT_App/SportFIT/SportFIT/Styles/Colores.xaml" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Alfredo/Desktop/ALFREDO/GradoSuperior/TFG/SportFIT_App/SportFIT/SportFIT/Styles/StylesButton.xaml" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/Alfredo/Desktop/ALFREDO/GradoSuperior/TFG/SportFIT_App/SportFIT/SportFIT/Views/MainView.xaml" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -43,29 +56,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.SportFIT.executor&quot;: &quot;Run&quot;,
-    &quot;DefaultPlantUmlFileTemplate&quot;: &quot;UML Class&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.SportFIT.executor": "Run",
+    "DefaultPlantUmlFileTemplate": "UML Use Case",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Alfredo/Desktop/ALFREDO/GradoSuperior/TFG/Documentacion",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\Alfredo\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\Alfredo\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\Alfredo\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\Alfredo\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Alfredo\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\Alfredo\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="SportFIT" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -104,7 +118,18 @@
       <workItem from="1713695389768" duration="108000" />
       <workItem from="1713695523161" duration="995000" />
       <workItem from="1713771339198" duration="419000" />
+      <workItem from="1713772210121" duration="1810000" />
+      <workItem from="1713816121277" duration="2448000" />
     </task>
+    <task id="LOCAL-00001" summary="Asignación de los estilos del main y creacion del diagrama de clases">
+      <option name="closed" value="true" />
+      <created>1713772564933</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713772564933</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,5 +138,7 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Asignación de los estilos del main y creacion del diagrama de clases" />
+    <option name="LAST_COMMIT_MESSAGE" value="Asignación de los estilos del main y creacion del diagrama de clases" />
   </component>
 </project>

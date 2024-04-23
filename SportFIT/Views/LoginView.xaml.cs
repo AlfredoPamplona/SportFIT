@@ -1,23 +1,25 @@
-﻿using SportFIT.Controllers;
-using System;
+﻿using System;
+using System.Configuration;
 using System.Windows;
+using System.Windows.Controls;
+using SportFIT.Controllers;
+using SportFIT.Views;
 
 namespace SportFIT.Views
 {
-    // Clase parcial que representa la ventana de inicio de sesion
+    // Clase parcial que representa la ventana de inicio de sesión
     public partial class LoginView : Window
     {
-        private LoginController _viewModel; // Instancia del controlador de inicio de sesion
+        private LoginController _viewModel; // Instancia del controlador de inicio de sesión
 
         // Constructor de la clase LoginView
         public LoginView()
         {
-            InitializeComponent(); 
+            InitializeComponent();
             _viewModel = new LoginController(); // Crea una nueva instancia del LoginController
             DataContext = _viewModel; // Establece el contexto de datos de la ventana a la instancia del LoginController
         }
 
-     
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -28,7 +30,7 @@ namespace SportFIT.Views
                 // Verifica si el nombre de usuario o la contraseña están en blanco o nulos
                 if (string.IsNullOrWhiteSpace(_viewModel.Usuario) || string.IsNullOrWhiteSpace(_viewModel.Password))
                 {
-                    _viewModel.ErrorMessage = "Por favor ingresa usuario y contraseña."; 
+                    _viewModel.ErrorMessage = "Por favor ingresa usuario y contraseña.";
                     return; // Sale del método sin continuar con el proceso de inicio de sesion
                 }
 
@@ -36,12 +38,16 @@ namespace SportFIT.Views
 
                 if (loginSuccessful)
                 {
-                    // Si el inicio de sesion es exitoso, crea una instancia de MainView
-                    var mainView = new MainView();
-                    mainView.Title = $"SportFIT | {_viewModel.Usuario}"; 
+                    // Obtener el rol del usuario autenticado
+                    RoleController roleController = new RoleController(ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString);
+                    string userRole = roleController.GetUserRole(_viewModel.Usuario);
+
+                    // Crear una instancia de MainView pasando el rol del usuario
+                    var mainView = new MainView(userRole);
+                    mainView.Title = $"SportFIT | {_viewModel.Usuario}";
                     mainView.Show();
 
-                    this.Close();
+                    this.Close(); // Cierra la ventana de inicio de sesión
                 }
                 else
                 {
@@ -50,7 +56,7 @@ namespace SportFIT.Views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al iniciar sesión: {ex.Message}"); // Muestra un mensaje de error en caso de excepcion
+                MessageBox.Show($"Error al iniciar sesión: {ex.Message}"); // Muestra un mensaje de error en caso de excepción
             }
         }
     }
