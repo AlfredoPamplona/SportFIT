@@ -31,7 +31,7 @@ namespace SportFIT.Controllers
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        string nombrePueblo = reader["Nombre"].ToString();
+                        string nombrePueblo = reader["nombre_pueblo"].ToString();
                         nombresPueblos.Add(nombrePueblo);
                     }
 
