@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SportFIT.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -13,51 +14,45 @@ namespace SportFIT.Controllers
         {
             this.connectionString = connectionString;
         }
-
-        public List<string> ObtenerReservasDetalladas()
+        public List<ReservaViewModel> ObtenerReservas(int selectedPuebloId)
         {
-            List<string> reservasDetalladas = new List<string>();
+            List<ReservaViewModel> reservas = new List<ReservaViewModel>();
 
-            // Consulta SQL para obtener los detalles de las reservas
-            string query = @"SELECT r.id_reserva, u.nombre_usuario, r.fecha_reserva, r.hora_inicio, r.duracion, a.nombre_actividad, i.nombre_instalacion
-                             FROM Reserva r
-                             INNER JOIN Usuario u ON r.id_usuario = u.id_usuario
-                             INNER JOIN Instalacion i ON r.id_instalacion = i.id_instalacion
-                             INNER JOIN Actividad a ON i.id_instalacion = a.id_instalacion";
-
-            try
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                string query = @"SELECT r.id_reserva, u.nombre_usuario, r.fecha_reserva, r.hora_inicio, r.duracion, a.nombre_actividad, i.nombre_instalacion
+                                FROM Reserva r
+                                INNER JOIN Usuario u ON r.id_usuario = u.id_usuario
+                                INNER JOIN Instalacion i ON r.id_instalacion = i.id_instalacion
+                                INNER JOIN Actividad a ON i.id_instalacion = a.id_instalacion
+                                WHERE i.id_pueblo = @selectedPuebloId";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@selectedPuebloId", selectedPuebloId);
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    connection.Open();
-
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                    // Crear objetos Reserva y llenarlos con los datos del lector
+                    ReservaViewModel reserva = new ReservaViewModel
                     {
-                        int idReserva = Convert.ToInt32(reader["id_reserva"]);
-                        string nombreUsuario = reader["nombre_usuario"].ToString();
-                        DateTime fechaReserva = Convert.ToDateTime(reader["fecha_reserva"]);
-                        TimeSpan horaInicio = TimeSpan.Parse(reader["hora_inicio"].ToString());
-                        int duracion = Convert.ToInt32(reader["duracion"]);
-                        string nombreActividad = reader["nombre_actividad"].ToString();
-                        string nombreInstalacion = reader["nombre_instalacion"].ToString();
+                        IdReserva = Convert.ToInt32(reader["id_reserva"]),
+                        NombreUsuario = reader["nombre_usuario"].ToString(),
+                        FechaReserva = Convert.ToDateTime(reader["fecha_reserva"]),
+                        HoraInicio = TimeSpan.Parse(reader["hora_inicio"].ToString()),
+                        Duracion = Convert.ToInt32(reader["duracion"]),
+                        NombreActividad = reader["nombre_actividad"].ToString(),
+                        NombreInstalacion = reader["nombre_instalacion"].ToString()
+                    };
 
-                        // Formatear los detalles de la reserva como texto y agregar a la lista
-                        string reservaDetallada = $"ID: {idReserva}, Usuario: {nombreUsuario}, Fecha: {fechaReserva.ToShortDateString()}, Hora: {horaInicio}, Duración: {duracion} horas, Actividad: {nombreActividad}, Instalación: {nombreInstalacion}";
-                        reservasDetalladas.Add(reservaDetallada);
-                    }
-
-                    reader.Close();
+                    reservas.Add(reserva);
                 }
             }
-            catch (Exception ex)
-            {
-                // Manejar la excepción adecuadamente (por ejemplo, registrando o lanzando una excepción personalizada)
-                Console.WriteLine("Error al obtener reservas detalladas: " + ex.Message);
-            }
 
-            return reservasDetalladas;
+            return reservas;
         }
+
     }
 }

@@ -19,7 +19,7 @@ namespace SportFIT.Controllers
             List<string> nombresPueblos = new List<string>();
 
             // Consulta SQL para obtener los nombres de los pueblos
-            string query = "SELECT nombre_pueblo FROM pueblo";
+            string query = "SELECT * FROM pueblo";
 
             try
             {

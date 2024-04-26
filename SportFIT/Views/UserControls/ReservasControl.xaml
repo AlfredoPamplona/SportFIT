@@ -13,13 +13,13 @@
 
     <Grid HorizontalAlignment="Stretch" Width="Auto">
         <fa:IconImage Icon="Table" Width="61" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="88,44,0,0"/>
-        <ComboBox FontSize="29" x:Name="comboBoxPueblos" HorizontalAlignment="Left" Margin="88,217,0,0" VerticalAlignment="Top" Width="224" Height="44"/>
+        <ComboBox FontSize="29" x:Name="comboBoxPueblos" HorizontalAlignment="Left" Margin="88,217,0,0" VerticalAlignment="Top" Width="224" Height="44" SelectionChanged="comboBoxPueblos_SelectionChanged"/>
         <Button Content="+" HorizontalAlignment="Left" Margin="354,217,0,0" VerticalAlignment="Top" Height="44" Width="715"/>
         <TextBlock HorizontalAlignment="Left" Margin="171,44,0,0" TextWrapping="Wrap" Text="Reservas" FontSize="40" VerticalAlignment="Top" Height="54" Width="164"/>
-        <DataGrid x:Name="dataGridReservas" FontSize="20" Margin="88,293,109,0" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dataGridReservas" FontSize="20" Margin="88,293,109,0" VerticalAlignment="Top" IsReadOnly="True" AutoGenerateColumns="False" Height="443">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID Reserva" Binding="{Binding IdReserva}" Width="*"/>
-                <DataGridTextColumn Header="Usuario" Binding="{Binding NombreUsuario}" Width="*"/>
+                <DataGridTextColumn Header="Usuario" Binding="{Binding IdUsuario}" Width="*"/>
                 <DataGridTextColumn Header="Fecha Reserva" Binding="{Binding FechaReserva, StringFormat=dd/MM/yyyy}" Width="*"/>
                 <DataGridTextColumn Header="Hora Inicio" Binding="{Binding HoraInicio}" Width="*"/>
                 <DataGridTextColumn Header="Duración (horas)" Binding="{Binding Duracion}" Width="*"/>
