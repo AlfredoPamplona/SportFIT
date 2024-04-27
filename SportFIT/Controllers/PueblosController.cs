@@ -13,12 +13,40 @@ namespace SportFIT.Controllers
         {
             this.connectionString = connectionString;
         }
+        public int ObtenerPuebloSelected(string pueblo)
+        {
+            int idPueblo=0;
+            string query = @"SELECT id_pueblo FROM pueblo where nombre_pueblo = @PuebloNombre";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@PuebloNombre", pueblo);
 
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        idPueblo = Convert.ToInt32(reader["id_pueblo"]);
+                    }
+
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción adecuadamente (por ejemplo, registrando o lanzando una excepción personalizada)
+                Console.WriteLine("Error al obtener nombres de pueblos: " + ex.Message);
+            }
+            return idPueblo;
+        }
         public List<string> ObtenerNombresPueblos()
         {
             List<string> nombresPueblos = new List<string>();
 
-            // Consulta SQL para obtener los nombres de los pueblos
+            // Consulta SQL para obtener los pueblos
             string query = "SELECT * FROM pueblo";
 
             try

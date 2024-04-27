@@ -36,20 +36,23 @@ namespace SportFIT.Views.UserControls
 
         private void comboBoxPueblos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CargarReservas();
+            if (comboBoxPueblos.SelectedItem != null)
+            {
+                // Obtener el nombre del pueblo seleccionado
+                string selectedPueblo = comboBoxPueblos.SelectedItem.ToString();
+
+                // Obtener el ID del pueblo seleccionado
+                int selectedPuebloId = pueblosController.ObtenerPuebloSelected(selectedPueblo);
+
+                // Cargar las reservas del pueblo seleccionado en el DataGrid
+                CargarReservas(selectedPuebloId);
+            }
         }
 
-        private void CargarReservas()
+        private void CargarReservas(int selectedPuebloId)
         {
-            ComboBoxItem selectedItem = (ComboBoxItem)comboBoxPueblos.SelectedItem;
-
-            if (selectedItem != null)
-            {
-                int selectedPuebloId = (int)selectedItem.Content; 
-
-                List<ReservaViewModel> reservas = reservasController.ObtenerReservas(selectedPuebloId);
-                dataGridReservas.ItemsSource = reservas;
-            }
+            List<ReservaViewModel> reservas = reservasController.ObtenerReservas(selectedPuebloId);
+            dataGridReservas.ItemsSource = reservas;          
         }
     }
 }
