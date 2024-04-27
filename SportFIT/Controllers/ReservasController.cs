@@ -54,5 +54,66 @@ namespace SportFIT.Controllers
             return reservas;
         }
 
+        public int ObtenerUserSelected(string user)
+        {
+            int idUser = 1; //Modificar variable
+            string query = @"SELECT id_usuario FROM usuario where nombre_usuario = @UsuarioNombre";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@PuebloNombre", user);
+
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        idUser = Convert.ToInt32(reader["id_usuario"]);
+                    }
+
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al obtener el ID del usuario: " + ex.Message);
+            }
+            return idUser;
+        }
+        public List<string> ObtenerUsuarios()
+        {
+            List<string> nombresUsuarios = new List<string>();
+            // Consulta SQL para obtener los pueblos
+            string query = "SELECT nombre_usuario FROM usuario";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        string nombreUsuario = reader["nombre_usuario"].ToString();
+                        nombresUsuarios.Add(nombreUsuario);
+                    }
+
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al obtener nombres de usuarios: " + ex.Message);
+            }
+
+            return nombresUsuarios;
+        }
+
+
+
     }
 }

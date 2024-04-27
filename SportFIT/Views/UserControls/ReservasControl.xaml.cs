@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using SportFIT.Controllers;
 using SportFIT.Models;
@@ -23,6 +24,9 @@ namespace SportFIT.Views.UserControls
             // Llenar el ComboBox con los nombres de los pueblos
             CargarNombresPueblos();
 
+            //Seleccionar el primer item por defecto
+            comboBoxPueblos.SelectedIndex = 0;
+
         }
 
         private void CargarNombresPueblos()
@@ -43,7 +47,6 @@ namespace SportFIT.Views.UserControls
 
                 // Obtener el ID del pueblo seleccionado
                 int selectedPuebloId = pueblosController.ObtenerPuebloSelected(selectedPueblo);
-
                 // Cargar las reservas del pueblo seleccionado en el DataGrid
                 CargarReservas(selectedPuebloId);
             }
@@ -54,5 +57,52 @@ namespace SportFIT.Views.UserControls
             List<ReservaViewModel> reservas = reservasController.ObtenerReservas(selectedPuebloId);
             dataGridReservas.ItemsSource = reservas;          
         }
+        private void CargarNombreUsuarios()
+        {
+            var nombreUsuarios = reservasController.ObtenerUsuarios();
+
+            // Agregar texto fijo al inicio de la lista
+            nombreUsuarios.Insert(0, "Usuario");
+
+            // Asignar la lista como ItemsSource del ComboBox
+            ComboBoxUser.ItemsSource = nombreUsuarios;
+
+            // Seleccionar el primer elemento (el texto fijo)
+            ComboBoxUser.SelectedIndex = 0;
+        }
+        private void ComboBoxUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Verificar si se ha seleccionado un usuario (ignorar el primer elemento)
+            if (ComboBoxUser.SelectedIndex > 0)
+            {
+                // Aquí puedes acceder al usuario seleccionado
+                string selectedUser = ComboBoxUser.SelectedItem.ToString();
+
+                int selectedUserId = reservasController.ObtenerUserSelected(selectedUser);
+            }
+        }
+        private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            //LLenar el ComboBox con los nombres de los usuarios
+            CargarNombreUsuarios();
+
+            //Seleccionar el primer item por defecto
+            ComboBoxUser.SelectedIndex = 0;
+
+            if (!popupAgregar.IsOpen)
+            {
+                popupAgregar.IsOpen = true;
+            }
+            else
+            {
+                popupAgregar.IsOpen = false;
+            }
+        }
+
+        private void btnAddReserva(object sender, System.Windows.RoutedEventArgs e) 
+        {
+            MessageBox.Show("CLICK");
+        }
+
     }
 }

@@ -11,20 +11,42 @@
     Height="767"
     Width="1178">
 
-    <Grid HorizontalAlignment="Stretch" Width="Auto">
-        <fa:IconImage Icon="Table" Width="61" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="88,44,0,0"/>
-        <ComboBox FontSize="29" x:Name="comboBoxPueblos" HorizontalAlignment="Left" Margin="88,217,0,0" VerticalAlignment="Top" Width="224" Height="44" SelectionChanged="comboBoxPueblos_SelectionChanged"/>
-        <Button Content="+" HorizontalAlignment="Left" Margin="354,217,0,0" VerticalAlignment="Top" Height="44" Width="715"/>
-        <TextBlock HorizontalAlignment="Left" Margin="171,44,0,0" TextWrapping="Wrap" Text="Reservas" FontSize="40" VerticalAlignment="Top" Height="54" Width="164"/>
-        <DataGrid x:Name="dataGridReservas" FontSize="20" Margin="88,293,109,0" VerticalAlignment="Top" IsReadOnly="True" AutoGenerateColumns="False" Height="443">
+    <Grid HorizontalAlignment="Stretch">
+        <fa:IconImage Foreground="{StaticResource NavegationColor}" Icon="Table" Width="61" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50,44,0,0"/>
+        <ComboBox FontSize="29" x:Name="comboBoxPueblos" HorizontalAlignment="Left" Margin="50,217,0,0" VerticalAlignment="Top" Width="224" Height="44" SelectionChanged="comboBoxPueblos_SelectionChanged"/>
+        <Button x:Name="btnAdd"
+            Width="779" HorizontalAlignment="Left" VerticalAlignment="Top"
+            Height="44" Margin="318,217,0,0" FontWeight="Bold"
+            Content="+" BorderThickness="1,1,0,1" FontSize="20" Click="btnAdd_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="White" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource MouseOverColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border BorderBrush="Black" BorderThickness="2" Width="779" Height="44" CornerRadius="9" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBlock Foreground="{StaticResource NavegationColor}" HorizontalAlignment="Left" Margin="131,44,0,0" TextWrapping="Wrap" Text="Reservas" FontSize="40" VerticalAlignment="Top" Height="54" Width="164"/>
+        <DataGrid x:Name="dataGridReservas" FontSize="20" Margin="50,292,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" AutoGenerateColumns="False" Height="443" Width="1047">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID Reserva" Binding="{Binding IdReserva}" Width="*"/>
-                <DataGridTextColumn Header="Usuario" Binding="{Binding IdUsuario}" Width="*"/>
-                <DataGridTextColumn Header="Fecha Reserva" Binding="{Binding FechaReserva, StringFormat=dd/MM/yyyy}" Width="*"/>
-                <DataGridTextColumn Header="Hora Inicio" Binding="{Binding HoraInicio}" Width="*"/>
-                <DataGridTextColumn Header="Duración (horas)" Binding="{Binding Duracion}" Width="*"/>
-                <DataGridTextColumn Header="Actividad" Binding="{Binding NombreActividad}" Width="*"/>
-                <DataGridTextColumn Header="Instalación" Binding="{Binding NombreInstalacion}" Width="*"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding IdReserva}" Width="40"/>
+                <DataGridTextColumn Header="Usuario" Binding="{Binding NombreUsuario}" Width="SizeToCells"/>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding FechaReserva, StringFormat=dd/MM/yyyy}" Width="SizeToCells"/>
+                <DataGridTextColumn Header="Hora" Binding="{Binding HoraInicio}" Width="*"/>
+                <DataGridTextColumn Header="Duración" Binding="{Binding Duracion}" Width="*"/>
+                <DataGridTextColumn Header="Actividad" Binding="{Binding NombreActividad}" Width="SizeToCells"/>
+                <DataGridTextColumn Header="Instalación" Binding="{Binding NombreInstalacion}" Width="SizeToCells"/>
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -45,5 +67,21 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Popup x:Name="popupAgregar" Placement="Center" StaysOpen="False">
+            <Border Background="White" BorderBrush="Black" BorderThickness="3" Padding="20" Width="400" Height="350">
+                <StackPanel>
+                    <ComboBox x:Name="ComboBoxUser" Margin="10,5,10,10" SelectionChanged="ComboBoxUser_SelectionChanged"/>
+                    <ComboBox x:Name="ComboBoxInstalaciones" Margin="10,5,10,10"/>
+                    <ComboBox x:Name="ComboBoxActividades" Margin="10,5,10,10"/>
+                    <TextBlock Margin="10,0,0,0"  Text="Fecha Reserva" Foreground="Black"/>
+                    <DatePicker Margin="10,5,10,10" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="2"/>
+                    <TextBlock Margin="10,0,0,0" Text="Duración" Foreground="Black"/>
+                    <TextBox Margin="10,5,10,10" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
+                    <TextBlock Margin="10,0,0,0" Text="Hora Reserva" Foreground="Black"/>
+                    <TextBox Margin="10,5,10,10" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
+                    <Button Click="btnAddReserva" Margin="10,5,10,10" Content="Añadir" Background="{StaticResource BtnNaranja}" Foreground="White"/>
+                </StackPanel>
+            </Border>
+        </Popup>
     </Grid>
 </UserControl>
