@@ -2,10 +2,12 @@
 using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SportFIT.Controllers
 {
-    // Clase que maneja la logica de inicio de sesion y notifica cambios en las propiedades
+    // Clase que maneja la lógica de inicio de sesión y notifica cambios en las propiedades
     public class LoginController : INotifyPropertyChanged
     {
         private string _usuario;
@@ -43,48 +45,60 @@ namespace SportFIT.Controllers
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Metodo protegido para invocar el evento PropertyChanged
+        // Método protegido para invocar el evento PropertyChanged
         protected virtual void OnPropertyChanged(string propertyName)
         {
             // Verificar si PropertyChanged no es nulo, luego invocar el evento
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // Metodo que intenta autenticar al usuario
+        // Método para cifrar la contraseña
+        public static string HashPassword(string password)
+        {
+            using (var sha256 = new SHA256Managed())
+            {
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
+        }
+
+        // Método que intenta autenticar al usuario
         public bool Login()
         {
             try
             {
-                // Obtener la cadena de conexion desde la configuracion de la aplicacion
+                string hashedPassword = HashPassword(Password);
+
+                // Obtener la cadena de conexión desde la configuración de la aplicación
                 string connectionString = ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString;
 
-                // Establecer una conexion a la base de datos utilizando SqlConnection
+                // Establecer una conexión a la base de datos utilizando SqlConnection
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    // Abrir la conexion a la base de datos
+                    // Abrir la conexión a la base de datos
                     connection.Open();
 
-                    // Definir la consulta para contar las filas que coinciden con el usuario y la contraseña
+                    // Definir la consulta para contar las filas que coinciden con el usuario y la contraseña cifrada
                     string query = "SELECT COUNT(*) FROM Usuario WHERE nombre_usuario = @Usuario AND password = @Password";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Usuario", Usuario);
-                        command.Parameters.AddWithValue("@Password", Password);
+                        command.Parameters.AddWithValue("@Password", hashedPassword); // Utilizar la contraseña cifrada
 
-                        // Ejecutar la consulta y obtener el resultado (numero de filas)
+                        // Ejecutar la consulta y obtener el resultado (número de filas)
                         int count = (int)command.ExecuteScalar();
 
-                        // Verificar si se encontro al menos una fila (usuario autenticado)
+                        // Verificar si se encontró al menos una fila (usuario autenticado)
                         if (count > 0)
                         {
-                            return true; 
+                            return true;
                         }
                         else
                         {
                             // Usuario o contraseña incorrectos, establecer mensaje de error
                             ErrorMessage = "Usuario o contraseña incorrectos.";
-                            return false; 
+                            return false;
                         }
                     }
                 }
@@ -93,7 +107,7 @@ namespace SportFIT.Controllers
             {
                 // Capturar excepciones y establecer el mensaje de error correspondiente
                 ErrorMessage = $"Error al iniciar sesión: {ex.Message}";
-                return false; // Error al intentar iniciar sesion
+                return false; // Error al intentar iniciar sesión
             }
         }
     }

@@ -34,6 +34,7 @@ namespace SportFIT.Views
                     return; // Sale del método sin continuar con el proceso de inicio de sesion
                 }
 
+
                 bool loginSuccessful = _viewModel.Login(); // Intenta iniciar sesion utilizando el controlador
 
                 if (loginSuccessful)
