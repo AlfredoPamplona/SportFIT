@@ -31,22 +31,22 @@
 
         <!-- Texto "Sport FIT" en una línea en la segunda fila -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Width="96" Margin="0,0,0,0">
-            <TextBlock Text="Sport" FontSize="24" FontWeight="Bold" Foreground="#134f5c" Height="33"/>
-            <TextBlock Text="FIT" FontSize="24" FontWeight="Bold" Foreground="#fd923b" Height="33"/>
+            <TextBlock Text="Sport" FontSize="24" FontWeight="Bold" Foreground="{StaticResource NavegationColor}" Height="33"/>
+            <TextBlock Text="FIT" FontSize="24" FontWeight="Bold" Foreground="{StaticResource BtnNaranja}" Height="33"/>
         </StackPanel>
-        <TextBlock Grid.Row="2" Text="Usuario" FontWeight="Bold" Foreground="#134f5c" Height="15" Width="200" Margin="0,30,0,0"/>
-        <TextBox Grid.Row="3" Width="200" Text="{Binding Usuario}" Foreground="#134f5c" x:Name="txtUsuario"
+        <TextBlock Grid.Row="2" Text="Usuario" FontWeight="Bold" Foreground="{StaticResource NavegationColor}" Height="15" Width="200" Margin="0,30,0,0"/>
+        <TextBox Grid.Row="3" Width="200" Text="{Binding Usuario}" Foreground="{StaticResource NavegationColor}" x:Name="txtUsuario"
                  HorizontalAlignment="Center" 
-                 BorderBrush="#134f5c" Height="28"
+                 BorderBrush="{StaticResource NavegationColor}" Height="28"
                  BorderThickness="0,0,0,1" Padding="20,5,2,0">
             <TextBox.Background>
                 <ImageBrush ImageSource="../images/iconUser.png" Stretch="None" AlignmentX="Left" />
             </TextBox.Background>
         </TextBox>
-        <TextBlock Grid.Row="4" Text="Contraseña" FontWeight="Bold" Foreground="#134f5c" Height="15" Width="200" Margin="0,30,0,0"/>
+        <TextBlock Grid.Row="4" Text="Contraseña" FontWeight="Bold" Foreground="{StaticResource NavegationColor}" Height="15" Width="200" Margin="0,30,0,0"/>
         <PasswordBox Grid.Row="5" Width="200" FontWeight="Medium"
                  HorizontalAlignment="Center" x:Name="txtPassword"
-                 BorderBrush="#134f5c" Height="28"
+                 BorderBrush="{StaticResource NavegationColor}" Height="28"
                  BorderThickness="0,0,0,1" Padding="20,5,2,0">
             <PasswordBox.Background>
                 <ImageBrush ImageSource="../images/iconKey.png" Stretch="None" AlignmentX="Left" />
@@ -59,10 +59,10 @@
                 Content="Iniciar Sesión" Click="btnLogin_Click" BorderThickness="1,1,0,1" >
             <Button.Style>
                 <Style TargetType="Button">
-                    <Setter Property="Background" Value="#F6B26B" />
+                    <Setter Property="Background" Value="{StaticResource BtnOverNaranja}" />
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#E18942"/>
+                            <Setter Property="Background" Value="{StaticResource BtnNaranja}"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>

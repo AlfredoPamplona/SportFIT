@@ -89,16 +89,8 @@
     <Compile Include="Controllers\PueblosController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Models\Actividad.cs" />
-    <Compile Include="Models\Instalacion.cs" />
-    <Compile Include="Models\Permiso.cs" />
-    <Compile Include="Models\Pueblo.cs" />
-    <Compile Include="Models\Reserva.cs" />
     <Compile Include="Models\ReservaViewModel.cs" />
-    <Compile Include="Models\Rol.cs" />
-    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Models\SportFITDbContext.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>

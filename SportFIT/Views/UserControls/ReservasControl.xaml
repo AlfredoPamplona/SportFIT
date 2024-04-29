@@ -68,18 +68,37 @@
             </DataGrid.Columns>
         </DataGrid>
         <Popup x:Name="popupAgregar" Placement="Center" StaysOpen="False">
-            <Border Background="White" BorderBrush="Black" BorderThickness="3" Padding="20" Width="400" Height="350">
+            <Border Background="White" BorderBrush="Black" BorderThickness="3" Padding="20" Width="450" Height="400">
                 <StackPanel>
-                    <ComboBox x:Name="ComboBoxUser" Margin="10,5,10,10" SelectionChanged="ComboBoxUser_SelectionChanged"/>
-                    <ComboBox x:Name="ComboBoxInstalaciones" Margin="10,5,10,10"/>
-                    <ComboBox x:Name="ComboBoxActividades" Margin="10,5,10,10"/>
-                    <TextBlock Margin="10,0,0,0"  Text="Fecha Reserva" Foreground="Black"/>
-                    <DatePicker Margin="10,5,10,10" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="2"/>
-                    <TextBlock Margin="10,0,0,0" Text="Duración" Foreground="Black"/>
-                    <TextBox Margin="10,5,10,10" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
-                    <TextBlock Margin="10,0,0,0" Text="Hora Reserva" Foreground="Black"/>
-                    <TextBox Margin="10,5,10,10" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
-                    <Button Click="btnAddReserva" Margin="10,5,10,10" Content="Añadir" Background="{StaticResource BtnNaranja}" Foreground="White"/>
+                    <ComboBox x:Name="ComboBoxUser" Foreground="{StaticResource NavegationColor}" Margin="10,5,10,15" SelectionChanged="ComboBoxUser_SelectionChanged"/>
+                    <ComboBox x:Name="ComboBoxInstalaciones" Foreground="{StaticResource NavegationColor}" Margin="10,5,10,15" SelectionChanged="ComboBoxInstalaciones_SelectionChanged"/>
+                    <ComboBox x:Name="ComboBoxActividades" Foreground="{StaticResource NavegationColor}" Margin="10,5,10,15" SelectionChanged="ComboBoxActividades_SelectionChanged"/>
+                    <TextBlock Margin="10,0,0,0" Text="Fecha Reserva" Foreground="{StaticResource NavegationColor}"/>
+                    <DatePicker Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="2"/>
+                    <TextBlock Margin="10,0,0,0" Text="Duración" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" TextChanged="TextBoxDuracion_TextChanged"/>
+                    <TextBlock Margin="10,0,0,0" Text="Hora Reserva" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" TextChanged="TextBoxHoraReserva_TextChanged"/>
+                    <Button Click="btnAddReserva" Margin="10,25,10,10" Content="Añadir" Foreground="Black">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="{StaticResource BtnNaranja}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource BtnOverNaranja}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border BorderBrush="Black" BorderThickness="2" Height="27" CornerRadius="9" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </StackPanel>
             </Border>
         </Popup>
