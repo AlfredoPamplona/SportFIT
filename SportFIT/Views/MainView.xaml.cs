@@ -9,12 +9,16 @@ namespace SportFIT.Views
     public partial class MainView : Window
     {
         private string currentUserRole;
+        private string usuario;
+        private string password;
 
-        public MainView(string userRole)
+        public MainView(string userRole, string usuario, string password)
         {
             InitializeComponent();
             WindowState = WindowState.Maximized;
             currentUserRole = userRole;
+            this.usuario = usuario;
+            this.password = password;
             DisableEnableButtonsBasedOnRole(currentUserRole);
         }
 
@@ -27,7 +31,7 @@ namespace SportFIT.Views
                 switch (button.Name)
                 {
                     case "reservasButton":
-                        userControlToShow = new ReservasControl(ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString);
+                        userControlToShow = new ReservasControl(ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString, usuario, password);
                         mainGrid.Children.Clear(); // Limpiar cualquier contenido existente en la segunda columna
                         mainGrid.Children.Add(userControlToShow);
                         break;

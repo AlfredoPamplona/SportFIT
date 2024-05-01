@@ -31,9 +31,8 @@ namespace SportFIT.Views
                 if (string.IsNullOrWhiteSpace(_viewModel.Usuario) || string.IsNullOrWhiteSpace(_viewModel.Password))
                 {
                     _viewModel.ErrorMessage = "Por favor ingresa usuario y contraseña.";
-                    return; // Sale del método sin continuar con el proceso de inicio de sesion
+                    return; // Sale del método sin continuar con el proceso de inicio de sesión
                 }
-
 
                 bool loginSuccessful = _viewModel.Login(); // Intenta iniciar sesion utilizando el controlador
 
@@ -43,8 +42,8 @@ namespace SportFIT.Views
                     RoleController roleController = new RoleController(ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString);
                     string userRole = roleController.GetUserRole(_viewModel.Usuario);
 
-                    // Crear una instancia de MainView pasando el rol del usuario
-                    var mainView = new MainView(userRole);
+                    // Crear una instancia de MainView pasando el rol del usuario, nombre de usuario y contraseña
+                    var mainView = new MainView(userRole, _viewModel.Usuario, _viewModel.Password);
                     mainView.Title = $"SportFIT | {_viewModel.Usuario}";
                     mainView.Show();
 

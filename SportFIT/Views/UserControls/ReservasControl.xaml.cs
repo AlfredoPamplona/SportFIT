@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using SportFIT.Controllers;
@@ -11,10 +12,15 @@ namespace SportFIT.Views.UserControls
     {
         private readonly PueblosController pueblosController;
         private readonly ReservasController reservasController;
+        private string usuario;
+        private string password;
 
-        public ReservasControl(string connectionString)
+        public ReservasControl(string connectionString, string usuario, string password)
         {
             InitializeComponent();
+
+            this.usuario = usuario;
+            this.password = password;
 
             // Crear una instancia del controlador de pueblos con la cadena de conexión adecuada
             pueblosController = new PueblosController(connectionString);
@@ -32,8 +38,11 @@ namespace SportFIT.Views.UserControls
 
         private void CargarNombresPueblos()
         {
+            //Recoger contraseña cifrada
+            string hashedPassword = LoginController.HashPassword(password);
+
             // Obtener los nombres de los pueblos desde el controlador
-            var nombresPueblos = pueblosController.ObtenerNombresPueblos();
+            var nombresPueblos = pueblosController.ObtenerNombresPueblos(usuario, hashedPassword);
 
             // Asignar la lista de nombres como origen de datos del ComboBox
             comboBoxPueblos.ItemsSource = nombresPueblos;
@@ -146,11 +155,13 @@ namespace SportFIT.Views.UserControls
         }
         private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            
-            //Seleccionar el primer item por defecto en cada comboBox
+            ComboBoxActividades.SelectedIndex = 0;
             ComboBoxUser.SelectedIndex = 0;
-            ComboBoxInstalaciones.SelectedIndex=0;
-
+            ComboBoxInstalaciones.SelectedIndex = 0;
+            datePickerFecha.Text = "";
+            TextBoxDuracion.Text = "";
+            TextBoxHoraReserva.Text = "";
+            txtError.Text = "";
             if (!popupAgregar.IsOpen)
             {
                 popupAgregar.IsOpen = true;
@@ -158,33 +169,6 @@ namespace SportFIT.Views.UserControls
             else
             {
                 popupAgregar.IsOpen = false;
-            }
-        }
-        // Evento de cambio de texto en el TextBox de duración
-        private void TextBoxDuracion_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            string input = textBox.Text.Trim();
-
-            // Validar el formato de la duración (ejemplo: "2:00")
-            if (!IsValidDuration(input))
-            {
-                MessageBox.Show("Por favor, introduce la duración en el formato correcto (por ejemplo, '2:00').");
-                textBox.Text = ""; // Limpiar el texto si no es válido
-            }
-        }
-
-        // Evento de cambio de texto en el TextBox de hora de reserva
-        private void TextBoxHoraReserva_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            string input = textBox.Text.Trim();
-
-            // Validar el formato de la hora de reserva (ejemplo: "11:30")
-            if (!IsValidTime(input))
-            {
-                MessageBox.Show("Por favor, introduce la hora de reserva en el formato correcto (por ejemplo, '11:30').");
-                textBox.Text = ""; // Limpiar el texto si no es válido
             }
         }
 
@@ -202,9 +186,44 @@ namespace SportFIT.Views.UserControls
             return DateTime.TryParseExact(input, "HH:mm", null, System.Globalization.DateTimeStyles.None, out time);
         }
 
-        private void btnAddReserva(object sender, System.Windows.RoutedEventArgs e) 
+        private void btnAddReserva(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("CLICK");
+            txtError.Text = "";
+
+            // Check if ComboBox selections are valid
+            if (ComboBoxUser.SelectedIndex <= 0 ||
+                ComboBoxInstalaciones.SelectedIndex <= 0 ||
+                ComboBoxActividades.SelectedIndex <= 0)
+            {
+                txtError.Text = "";
+                txtError.Text = "Por favor, selecciona todas las opciones antes de agregar la reserva.";
+            }else if (string.IsNullOrWhiteSpace(TextBoxDuracion.Text) ||
+                string.IsNullOrWhiteSpace(TextBoxHoraReserva.Text) ||
+                datePickerFecha.SelectedDate == null)
+            {
+                txtError.Text = "";
+                txtError.Text = "Por favor, completa todos los campos antes de agregar la reserva.";
+            }else if (!string.IsNullOrWhiteSpace(TextBoxDuracion.Text) &&
+                !IsValidDuration(TextBoxDuracion.Text))
+            {
+                txtError.Text = "";
+                txtError.Text = "Por favor, introduce la duración en el formato correcto (ejemplo: '2:00').";
+            }else if (!string.IsNullOrWhiteSpace(TextBoxHoraReserva.Text) &&
+                !IsValidTime(TextBoxHoraReserva.Text))
+            {
+                txtError.Text = "";
+                txtError.Text = "Por favor, introduce la hora de reserva en el formato correcto (ejemplo: '11:30').";           
+            }
+            else
+            {
+                txtError.Text = "";
+                MessageBox.Show("Todo Correcto");
+            }
+            // Reset fields after adding the reservation (if necessary)
+            // ComboBoxUser.SelectedIndex = 0;
+            // ComboBoxInstalaciones.SelectedIndex = 0;
+            // TextBoxDuracion.Text = string.Empty;
+            // TextBoxHoraReserva.Text = string.Empty;
         }
 
     }

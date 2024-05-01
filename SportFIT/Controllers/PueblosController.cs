@@ -42,18 +42,25 @@ namespace SportFIT.Controllers
             }
             return idPueblo;
         }
-        public List<string> ObtenerNombresPueblos()
+        public List<string> ObtenerNombresPueblos(string usuario, string password)
         {
             List<string> nombresPueblos = new List<string>();
 
-            // Consulta SQL para obtener los pueblos
-            string query = "SELECT * FROM pueblo";
+            // Consulta SQL para obtener los pueblos asociados al usuario con nombre y contraseña específicos
+            string query = @"SELECT p.nombre_pueblo 
+                     FROM Usuario u 
+                     INNER JOIN Usuario_Pueblo up ON u.id_usuario = up.id_usuario 
+                     INNER JOIN Pueblo p ON up.id_pueblo = p.id_pueblo 
+                     WHERE u.nombre_usuario = @usuario AND u.password = @password";
 
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@usuario", usuario);
+                    command.Parameters.AddWithValue("@password", password);
+
                     connection.Open();
 
                     SqlDataReader reader = command.ExecuteReader();
@@ -68,8 +75,7 @@ namespace SportFIT.Controllers
             }
             catch (Exception ex)
             {
-                // Manejar la excepción adecuadamente (por ejemplo, registrando o lanzando una excepción personalizada)
-                Console.WriteLine("Error al obtener nombres de pueblos: " + ex.Message);
+                Console.WriteLine("Error al obtener nombres de pueblos por usuario: " + ex.Message);
             }
 
             return nombresPueblos;
