@@ -86,9 +86,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\InstalacionesController.cs" />
     <Compile Include="Controllers\PueblosController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Models\InstalacionViewModel.cs" />
     <Compile Include="Models\ReservaViewModel.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
@@ -100,6 +102,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\UserControls\AjustesControl.xaml.cs">
+      <DependentUpon>AjustesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\InstalacionesControl.xaml.cs">
+      <DependentUpon>InstalacionesControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ReservasControl.xaml.cs">
       <DependentUpon>ReservasControl.xaml</DependentUpon>
@@ -117,6 +125,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainView.xaml" />
+    <Page Include="Views\UserControls\AjustesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\InstalacionesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserControls\ReservasControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

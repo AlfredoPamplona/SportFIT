@@ -37,18 +37,10 @@
             </RadioButton>
 
                 <!-- Botón Instalaciones -->
-            <RadioButton x:Name="instalacionesButton" Style="{StaticResource menuButton}" Tag="{StaticResource BtnGris}" Click="RadioButton_Click">
+            <RadioButton x:Name="instalacionesButton" Style="{StaticResource menuButton}" Tag="{StaticResource BtnAzul}" Click="RadioButton_Click">
                     <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
                         <fa:IconImage Icon="Building" Style="{StaticResource menuButtonIcon}"/>
                         <TextBlock Text="Instalaciones" Style="{StaticResource menuButtonText}"/>
-                    </StackPanel>
-                </RadioButton>
-
-                <!-- Botón Actividades -->
-            <RadioButton x:Name="actividadesButton" Style="{StaticResource menuButton}" Tag="{StaticResource BtnAzul}" Click="RadioButton_Click">
-                    <StackPanel Orientation="Horizontal" Margin="30,0,0,0">
-                        <fa:IconImage Icon="Medal" Style="{StaticResource menuButtonIcon}"/>
-                        <TextBlock Text="Actividades" Style="{StaticResource menuButtonText}"/>
                     </StackPanel>
                 </RadioButton>
 
@@ -61,7 +53,7 @@
                 </RadioButton>
 
                 <!-- Espacio grande -->
-                <Rectangle Height="168"/>
+                <Rectangle Height="218"/>
 
                 <!-- Botón Ajustes -->
             <RadioButton x:Name="ajustesButton" Style="{StaticResource menuButton}" Tag="{StaticResource TextColor}" Click="RadioButton_Click">

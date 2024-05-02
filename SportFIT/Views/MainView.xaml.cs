@@ -1,8 +1,7 @@
-﻿using System.Configuration;
+﻿using SportFIT.Views.UserControls;
+using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
-using SportFIT.Controllers;
-using SportFIT.Views.UserControls;
 
 namespace SportFIT.Views
 {
@@ -32,20 +31,19 @@ namespace SportFIT.Views
                 {
                     case "reservasButton":
                         userControlToShow = new ReservasControl(ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString, usuario, password);
-                        mainGrid.Children.Clear(); // Limpiar cualquier contenido existente en la segunda columna
+                        mainGrid.Children.Clear();
                         mainGrid.Children.Add(userControlToShow);
                         break;
                     case "instalacionesButton":
-                        MessageBox.Show("Se ha pulsado el botón de Instalaciones.");
-                        break;
-                    case "actividadesButton":
-                        MessageBox.Show("Se ha pulsado el botón de Actividades.");
+                        userControlToShow = new InstalacionesControl(ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString, usuario, password);
+                        mainGrid.Children.Clear();
+                        mainGrid.Children.Add(userControlToShow);
                         break;
                     case "estadisticasButton":
-                        MessageBox.Show("Se ha pulsado el botón de Estadísticas.");
+                        mainGrid.Children.Clear();
                         break;
                     case "ajustesButton":
-                        MessageBox.Show("Se ha pulsado el botón de Ajustes.");
+                        mainGrid.Children.Clear();
                         break;
                     case "cambiarUsuarioButton":
                         var loginView = new LoginView();
@@ -68,14 +66,13 @@ namespace SportFIT.Views
                     // Habilitar todos los botones
                     break;
                 case "monitor":
-                    ajustesButton.IsEnabled = false;
-                    instalacionesButton.IsEnabled = false;
+                    estadisticasButton.Visibility = Visibility.Hidden;
+                    ajustesButton.Visibility = Visibility.Hidden;                   
                     break;
                 case "usuario":
-                    instalacionesButton.IsEnabled = false;
-                    actividadesButton.IsEnabled = false;
-                    estadisticasButton.IsEnabled = false;
-                    ajustesButton.IsEnabled = false;
+                    instalacionesButton.Visibility = Visibility.Hidden;
+                    estadisticasButton.Visibility = Visibility.Hidden;
+                    ajustesButton.Visibility = Visibility.Hidden;
                     break;
                 default:
                     break;

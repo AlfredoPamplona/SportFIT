@@ -20,11 +20,10 @@ namespace SportFIT.Controllers
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"SELECT r.id_reserva, u.nombre_usuario, r.fecha_reserva, r.hora_inicio, r.duracion, a.nombre_actividad, i.nombre_instalacion
+                string query = @"SELECT r.id_reserva, u.nombre_usuario, r.fecha_reserva, r.hora_inicio, r.duracion, i.nombre_instalacion
                                 FROM Reserva r
                                 INNER JOIN Usuario u ON r.id_usuario = u.id_usuario
                                 INNER JOIN Instalacion i ON r.id_instalacion = i.id_instalacion
-                                INNER JOIN Actividad a ON i.id_instalacion = a.id_instalacion
                                 WHERE i.id_pueblo = @selectedPuebloId";
 
                 SqlCommand command = new SqlCommand(query, connection);
@@ -42,8 +41,7 @@ namespace SportFIT.Controllers
                         NombreUsuario = reader["nombre_usuario"].ToString(),
                         FechaReserva = Convert.ToDateTime(reader["fecha_reserva"]),
                         HoraInicio = TimeSpan.Parse(reader["hora_inicio"].ToString()),
-                        Duracion = Convert.ToInt32(reader["duracion"]),
-                        NombreActividad = reader["nombre_actividad"].ToString(),
+                        Duracion = TimeSpan.Parse(reader["duracion"].ToString()),
                         NombreInstalacion = reader["nombre_instalacion"].ToString()
                     };
 
@@ -115,7 +113,7 @@ namespace SportFIT.Controllers
 
             return nombresUsuarios;
         }
-        public int ObtenerActividadSelected(string instalacion)
+        public int ObtenerInstalacionSelected(string instalacion)
         {
             int idInstalacion = 1; //Modificar variable
             string query = @"SELECT id_instalacion FROM instalacion where nombre_instalacion = @InstalacionNombre";
@@ -175,63 +173,60 @@ namespace SportFIT.Controllers
             return nombresInstalaciones;
         }
 
-        public int ObtenerInstalacionSelected(string actividad)
+        public bool InsertarReserva(int idUsuario, int idInstalacion, DateTime fechaReserva, TimeSpan horaInicio, TimeSpan duracion)
         {
-            int idActividad = 1; //Modificar variable
-            string query = @"SELECT id_actividad FROM actividad where nombre_actividad = @ActividadNombre";
             try
             {
+                // Consulta SQL para insertar una reserva en la tabla Reserva
+                string query = @"INSERT INTO Reserva (fecha_reserva, hora_inicio, duracion, id_usuario, id_instalacion)
+                                VALUES (@fechaReserva, @horaInicio, @duracion, @idUsuario, @idInstalacion)";
+
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@ActividadNombre", actividad);
+                    command.Parameters.AddWithValue("@fechaReserva", fechaReserva);
+                    command.Parameters.AddWithValue("@horaInicio", horaInicio);
+                    command.Parameters.AddWithValue("@duracion", duracion);
+                    command.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    command.Parameters.AddWithValue("@idInstalacion", idInstalacion);
 
                     connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
 
-                    SqlDataReader reader = command.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        idActividad = Convert.ToInt32(reader["id_actividad"]);
-                    }
-
-                    reader.Close();
+                    // Verificar si se insertó correctamente (al menos una fila afectada)
+                    return rowsAffected > 0;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error al obtener el ID de la actividad: " + ex.Message);
+                Console.WriteLine("Error al insertar reserva: " + ex.Message);
+                return false;
             }
-            return idActividad;
         }
-        public List<string> ObtenerActividad()
-        {
-            List<string> nombresActividades = new List<string>();
-            // Consulta SQL para obtener las instalaciones
-            string query = @"SELECT nombre_actividad FROM actividad";
 
+        public bool EliminarReserva(int idReserva)
+        {
             try
             {
+                string query = @"DELETE FROM Reserva WHERE id_reserva = @idReserva";
+
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@idReserva", idReserva);
+
                     connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
 
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        string nombreActividad = reader["nombre_actividad"].ToString();
-                        nombresActividades.Add(nombreActividad);
-                    }
-
-                    reader.Close();
+                    // Verificar si se eliminó correctamente (al menos una fila afectada)
+                    return rowsAffected > 0;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error al obtener nombres de actividades: " + ex.Message);
+                Console.WriteLine("Error al eliminar reserva: " + ex.Message);
+                return false;
             }
-
-            return nombresActividades;
         }
     }
 }

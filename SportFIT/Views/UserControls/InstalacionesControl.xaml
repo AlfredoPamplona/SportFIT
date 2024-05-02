@@ -6,18 +6,18 @@
     xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="av"
-    x:Class="SportFIT.Views.UserControls.ReservasControl"
+    x:Class="SportFIT.Views.UserControls.InstalacionesControl"
     Background="{StaticResource BackgroundColor}"
     Height="767"
     Width="1178">
 
     <Grid HorizontalAlignment="Stretch">
-        <fa:IconImage Foreground="{StaticResource NavegationColor}" Icon="Table" Width="61" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50,44,0,0"/>
+        <fa:IconImage Foreground="{StaticResource NavegationColor}" Icon="Building" Width="47" Height="59" VerticalAlignment="Top"  HorizontalAlignment="Left" Margin="64,44,0,0"/>
         <ComboBox FontSize="29" x:Name="comboBoxPueblos" HorizontalAlignment="Left" Margin="50,217,0,0" VerticalAlignment="Top" Width="224" Height="44" SelectionChanged="comboBoxPueblos_SelectionChanged"/>
-        <Button x:Name="btnAdd"
+        <Button x:Name="btnAddInstalaciones"
             Width="779" HorizontalAlignment="Left" VerticalAlignment="Top"
             Height="44" Margin="318,217,0,0" FontWeight="Bold"
-            Content="+" BorderThickness="1,1,0,1" FontSize="20" Click="btnAdd_Click">
+            Content="+" BorderThickness="1,1,0,1" FontSize="20" Click="btnAddInstalaciones_Click">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="White" />
@@ -37,15 +37,13 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <TextBlock Foreground="{StaticResource NavegationColor}" HorizontalAlignment="Left" Margin="131,44,0,0" TextWrapping="Wrap" Text="Reservas" FontSize="40" VerticalAlignment="Top" Height="54" Width="164"/>
-        <DataGrid x:Name="dataGridReservas" FontSize="20" Margin="50,292,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" AutoGenerateColumns="False" Height="443" Width="1047">
+        <TextBlock Foreground="{StaticResource NavegationColor}" HorizontalAlignment="Left" Margin="131,44,0,0" TextWrapping="Wrap" Text="Instalaciones" FontSize="40" VerticalAlignment="Top" Height="54" Width="246"/>
+        <DataGrid x:Name="dataGridInstalaciones" FontSize="20" Margin="50,292,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" AutoGenerateColumns="False" Height="443" Width="1047">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding IdReserva}" Width="40"/>
-                <DataGridTextColumn Header="Usuario" Binding="{Binding NombreUsuario}" Width="SizeToCells"/>
-                <DataGridTextColumn Header="Fecha" Binding="{Binding FechaReserva, StringFormat=dd/MM/yyyy}" Width="SizeToCells"/>
-                <DataGridTextColumn Header="Hora" Binding="{Binding HoraInicio}" Width="*"/>
-                <DataGridTextColumn Header="Duración" Binding="{Binding Duracion}" Width="*"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding IdInstalacion}" Width="40"/>
                 <DataGridTextColumn Header="Instalación" Binding="{Binding NombreInstalacion}" Width="SizeToCells"/>
+                <DataGridTextColumn Header="Tipo" Binding="{Binding TipoInstalacion}" Width="SizeToCells"/>
+                <DataGridTextColumn Header="Dirección" Binding="{Binding DireccionInstalacion}" Width="*"/>
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -58,7 +56,7 @@
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent" BorderBrush="Transparent" Click="DeleteReserva_Click">
+                            <Button Background="Transparent" BorderBrush="Transparent">
                                 <fa:IconImage Icon="TrashAlt" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </DataTemplate>
@@ -66,25 +64,23 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Popup x:Name="popupAgregar" Placement="Center" StaysOpen="False">
+        <Popup x:Name="popupAgregarInstalacion" Placement="Center" StaysOpen="False">
             <Border Background="White" BorderBrush="Black" BorderThickness="3" Padding="20" Width="450" Height="400">
                 <StackPanel>
-                    <ComboBox x:Name="ComboBoxUser" Foreground="{StaticResource NavegationColor}" Margin="10,5,10,15" SelectionChanged="ComboBoxUser_SelectionChanged"/>
-                    <ComboBox x:Name="ComboBoxInstalaciones" Foreground="{StaticResource NavegationColor}" Margin="10,5,10,15" SelectionChanged="ComboBoxInstalaciones_SelectionChanged"/>
-                    <TextBlock Margin="10,0,0,0" Text="Fecha Reserva" Foreground="{StaticResource NavegationColor}"/>
-                    <DatePicker x:Name="datePickerFecha" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="2"/>
-                    <TextBlock x:Name="txtBlockPrueba" Margin="10,0,0,0" Text="Duración" Foreground="{StaticResource NavegationColor}"/>
-                    <TextBox x:Name="TextBoxDuracion" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
-                    <TextBlock Margin="10,0,0,0" Text="Hora Reserva" Foreground="{StaticResource NavegationColor}"/>
-                    <TextBox x:Name="TextBoxHoraReserva" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
+                    <TextBlock Margin="10,5,10,15" Text="Instalación" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox x:Name="TextBoxNombre" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzul}" BorderThickness="0,0,0,2" />
+                    <TextBlock Margin="10,0,0,0" Text="Tipo de Instalación" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox x:Name="TextBoxInstalacion" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzul}" BorderThickness="0,0,0,2" />
+                    <TextBlock Margin="10,0,0,0" Text="Dirección" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox x:Name="TextBoxDireccion" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzul}" BorderThickness="0,0,0,2" />
                     <TextBlock x:Name="txtError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="#D7596D" Margin="10,0,0,0"/>
-                    <Button Click="AddReserva_Click" Margin="10,20,10,10" Content="Añadir" Foreground="Black">
+                    <Button Click="btnAddInstalacion" Margin="10,20,10,10" Content="Añadir" Foreground="Black">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Background" Value="{StaticResource BtnNaranja}" />
+                                <Setter Property="Background" Value="{StaticResource BtnAzul}" />
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource BtnOverNaranja}"/>
+                                        <Setter Property="Background" Value="{StaticResource BtnOverAzul}"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -92,8 +88,7 @@
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border BorderBrush="Black" BorderThickness="2" Height="27" CornerRadius="9" Background="{TemplateBinding Background}">
-                                    <ContentPresenter VerticalAlignment="Center"
-HorizontalAlignment="Center"/>
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>

@@ -48,7 +48,7 @@ package "SportFIT.Models" {
         + IdReserva: int
         + FechaReserva: DateTime
         + HoraInicio: TimeSpan
-        + Duracion: int
+        + Duracion: TimeSpan
         + IdUsuario: int
         + Usuario: Usuario
         + IdInstalacion: int

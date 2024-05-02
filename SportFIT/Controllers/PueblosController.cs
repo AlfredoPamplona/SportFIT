@@ -15,7 +15,7 @@ namespace SportFIT.Controllers
         }
         public int ObtenerPuebloSelected(string pueblo)
         {
-            int idPueblo=0;
+            int idPueblo = 0;
             string query = @"SELECT id_pueblo FROM pueblo where nombre_pueblo = @PuebloNombre";
             try
             {

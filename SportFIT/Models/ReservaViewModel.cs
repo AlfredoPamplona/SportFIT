@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SportFIT.Models
 {
@@ -12,8 +8,7 @@ namespace SportFIT.Models
         public string NombreUsuario { get; set; }
         public DateTime FechaReserva { get; set; }
         public TimeSpan HoraInicio { get; set; }
-        public int Duracion { get; set; }
-        public string NombreActividad { get; set; }
+        public TimeSpan Duracion { get; set; }
         public string NombreInstalacion { get; set; }
     }
 

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using SportFIT.Controllers;
+using System;
 using System.Configuration;
 using System.Windows;
-using System.Windows.Controls;
-using SportFIT.Controllers;
-using SportFIT.Views;
 
 namespace SportFIT.Views
 {

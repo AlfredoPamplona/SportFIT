@@ -7,7 +7,7 @@
     <SolidColorBrush x:Key="MouseOverColor" Color="#CCCCCC"/>
     <SolidColorBrush x:Key="BtnNaranja" Color="#FD923B"/>
     <SolidColorBrush x:Key="BtnOverNaranja" Color="#F6B26B"/>
-    <SolidColorBrush x:Key="BtnGris" Color="#94ADC6"/>
-    <SolidColorBrush x:Key="BtnAzul" Color="#43B1EF"/> 
+    <SolidColorBrush x:Key="BtnAzul" Color="#43B1EF"/>
+    <SolidColorBrush x:Key="BtnOverAzul" Color="#3C9ACE"/>
     <SolidColorBrush x:Key="BtnAzulClaro" Color="#CCE5F2"/> 
 </ResourceDictionary>
