@@ -62,6 +62,36 @@ namespace SportFIT.Controllers
             }
         }
 
+        // Metodo para recuperar el id del usuario que ha iniciado sesion
+        public int ObtenerIdUsuario(string usuario)
+        {
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString;
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string query = "SELECT id_usuario FROM Usuario WHERE nombre_usuario = @Usuario";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Usuario", usuario);
+
+                        int idUsuario = (int)command.ExecuteScalar();
+
+                        return idUsuario;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar excepciones según sea necesario
+                throw new Exception($"Error al obtener el idUsuario: {ex.Message}");
+            }
+        }
+
         // Método que intenta autenticar al usuario
         public bool Login()
         {

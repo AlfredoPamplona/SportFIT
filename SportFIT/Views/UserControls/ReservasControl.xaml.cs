@@ -59,8 +59,7 @@ namespace SportFIT.Views.UserControls
                 // Cargar las reservas del pueblo seleccionado en el DataGrid
                 CargarReservas(selectedPuebloId);
 
-                //LLenar el ComboBox con los nombres de los usuarios, instalaciones
-                CargarNombreUsuarios(selectedPuebloId);
+                //LLenar el ComboBox con las instalaciones
                 CargarNombreInstalaciones(selectedPuebloId);
             }
         }
@@ -69,33 +68,6 @@ namespace SportFIT.Views.UserControls
         {
             List<ReservaViewModel> reservas = reservasController.ObtenerReservas(selectedPuebloId);
             dataGridReservas.ItemsSource = reservas;
-        }
-        private void CargarNombreUsuarios(int selectedPuebloId)
-        {
-            var nombreUsuarios = reservasController.ObtenerUsuarios(selectedPuebloId);
-
-            // Limpiar ComboBox antes de asignar nuevos elementos
-            ComboBoxUser.ItemsSource = null;
-
-            // Agregar texto fijo al inicio de la lista
-            nombreUsuarios.Insert(0, "Usuario");
-
-            // Asignar la lista como ItemsSource del ComboBox
-            ComboBoxUser.ItemsSource = nombreUsuarios;
-
-            // Seleccionar el primer elemento (el texto fijo)
-            ComboBoxUser.SelectedIndex = 0;
-        }
-        private void ComboBoxUser_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Verificar si se ha seleccionado un usuario (ignorar el primer elemento)
-            if (ComboBoxUser.SelectedIndex > 0)
-            {
-                // Aquí puedes acceder al usuario seleccionado
-                string selectedUser = ComboBoxUser.SelectedItem.ToString();
-
-                int selectedUserId = reservasController.ObtenerUserSelected(selectedUser);
-            }
         }
         private void CargarNombreInstalaciones(int selectedPuebloId)
         {
@@ -126,7 +98,6 @@ namespace SportFIT.Views.UserControls
         }
         private void btnAdd_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            ComboBoxUser.SelectedIndex = 0;
             ComboBoxInstalaciones.SelectedIndex = 0;
             datePickerFecha.Text = "";
             TextBoxDuracion.Text = "";
@@ -161,8 +132,7 @@ namespace SportFIT.Views.UserControls
             txtError.Text = ""; // Limpiar mensaje de error
 
             // Validar que se hayan seleccionado todos los elementos necesarios
-            if (ComboBoxUser.SelectedIndex <= 0 ||
-                ComboBoxInstalaciones.SelectedIndex <= 0 ||
+            if (ComboBoxInstalaciones.SelectedIndex <= 0 ||
                 string.IsNullOrWhiteSpace(TextBoxDuracion.Text) ||
                 string.IsNullOrWhiteSpace(TextBoxHoraReserva.Text) ||
                 datePickerFecha.SelectedDate == null)
@@ -185,39 +155,50 @@ namespace SportFIT.Views.UserControls
                 return;
             }
 
-            // Obtener los valores seleccionados de los ComboBox
-            string selectedUser = ComboBoxUser.SelectedItem.ToString();
-            string selectedInstalacion = ComboBoxInstalaciones.SelectedItem.ToString();
+            // Crear una instancia de LoginController y configurar usuario y contraseña
+            LoginController loginController = new LoginController();
+            loginController.Usuario = usuario;
+            loginController.Password = password;
 
-            // Obtener los IDs correspondientes a partir de los nombres seleccionados
-            int idUsuario = reservasController.ObtenerUserSelected(selectedUser);
-            int idInstalacion = reservasController.ObtenerInstalacionSelected(selectedInstalacion);
-
-            // Obtener la fecha de reserva y la hora de inicio
-            DateTime fechaReserva = datePickerFecha.SelectedDate.Value;
-            TimeSpan horaInicio = TimeSpan.Parse(TextBoxHoraReserva.Text);
-            TimeSpan duracion = TimeSpan.Parse(TextBoxDuracion.Text);
-
-            // Insertar la reserva utilizando el controlador de reservas
-            bool reservaInsertada = reservasController.InsertarReserva(idUsuario, idInstalacion, fechaReserva, horaInicio, duracion);
-
-            // Mostrar mensaje de éxito o error según el resultado de la inserción
-            if (reservaInsertada)
+            // Intentar iniciar sesión
+            if (loginController.Login())
             {
-                // Cerrar el Popup después de agregar la reserva correctamente
-                popupAgregar.IsOpen = false;
+                // Obtener el idUsuario del usuario autenticado
+                int idUsuario = loginController.ObtenerIdUsuario(usuario);
 
-                // Volver a cargar las reservas del pueblo seleccionado en el DataGrid
-                if (comboBoxPueblos.SelectedItem != null)
+                // Continuar con la lógica de agregar la reserva utilizando idUsuario obtenido
+                string selectedInstalacion = ComboBoxInstalaciones.SelectedItem.ToString();
+                int idInstalacion = reservasController.ObtenerInstalacionSelected(selectedInstalacion);
+
+                DateTime fechaReserva = datePickerFecha.SelectedDate.Value;
+                TimeSpan horaInicio = TimeSpan.Parse(TextBoxHoraReserva.Text);
+                TimeSpan duracion = TimeSpan.Parse(TextBoxDuracion.Text);
+
+                // Insertar la reserva utilizando el idUsuario obtenido
+                bool reservaInsertada = reservasController.InsertarReserva(idUsuario, idInstalacion, fechaReserva, horaInicio, duracion);
+
+                // Mostrar mensaje de éxito o error según el resultado de la inserción
+                if (reservaInsertada)
                 {
-                    string selectedPueblo = comboBoxPueblos.SelectedItem.ToString();
-                    int selectedPuebloId = pueblosController.ObtenerPuebloSelected(selectedPueblo);
-                    CargarReservas(selectedPuebloId);
+                    // Cerrar el Popup después de agregar la reserva correctamente
+                    popupAgregar.IsOpen = false;
+
+                    // Volver a cargar las reservas del pueblo seleccionado en el DataGrid
+                    if (comboBoxPueblos.SelectedItem != null)
+                    {
+                        string selectedPueblo = comboBoxPueblos.SelectedItem.ToString();
+                        int selectedPuebloId = pueblosController.ObtenerPuebloSelected(selectedPueblo);
+                        CargarReservas(selectedPuebloId);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error al agregar la reserva. Por favor, intenta nuevamente.");
                 }
             }
             else
             {
-                MessageBox.Show("Error al agregar la reserva. Por favor, intenta nuevamente.");
+                MessageBox.Show("Error al iniciar sesión. Verifica usuario y contraseña.");
             }
         }
 

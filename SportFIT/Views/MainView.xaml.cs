@@ -18,7 +18,7 @@ namespace SportFIT.Views
             currentUserRole = userRole;
             this.usuario = usuario;
             this.password = password;
-            DisableEnableButtonsBasedOnRole(currentUserRole);
+            HiddenButtonsBasedOnRole(currentUserRole);
         }
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
@@ -57,7 +57,7 @@ namespace SportFIT.Views
             }
         }
 
-        private void DisableEnableButtonsBasedOnRole(string role)
+        private void HiddenButtonsBasedOnRole(string role)
         {
             switch (role)
             {

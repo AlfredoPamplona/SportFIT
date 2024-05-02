@@ -69,15 +69,14 @@
         <Popup x:Name="popupAgregar" Placement="Center" StaysOpen="False">
             <Border Background="White" BorderBrush="Black" BorderThickness="3" Padding="20" Width="450" Height="400">
                 <StackPanel>
-                    <ComboBox x:Name="ComboBoxUser" Foreground="{StaticResource NavegationColor}" Margin="10,5,10,15" SelectionChanged="ComboBoxUser_SelectionChanged"/>
-                    <ComboBox x:Name="ComboBoxInstalaciones" Foreground="{StaticResource NavegationColor}" Margin="10,5,10,15" SelectionChanged="ComboBoxInstalaciones_SelectionChanged"/>
-                    <TextBlock Margin="10,0,0,0" Text="Fecha Reserva" Foreground="{StaticResource NavegationColor}"/>
+                    <ComboBox x:Name="ComboBoxInstalaciones" Foreground="{StaticResource NavegationColor}" Margin="10,25,10,15" SelectionChanged="ComboBoxInstalaciones_SelectionChanged"/>
+                    <TextBlock Margin="10,10,0,0" Text="Fecha Reserva" Foreground="{StaticResource NavegationColor}"/>
                     <DatePicker x:Name="datePickerFecha" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="2"/>
-                    <TextBlock x:Name="txtBlockPrueba" Margin="10,0,0,0" Text="Duración" Foreground="{StaticResource NavegationColor}"/>
-                    <TextBox x:Name="TextBoxDuracion" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
-                    <TextBlock Margin="10,0,0,0" Text="Hora Reserva" Foreground="{StaticResource NavegationColor}"/>
-                    <TextBox x:Name="TextBoxHoraReserva" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
-                    <TextBlock x:Name="txtError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="#D7596D" Margin="10,0,0,0"/>
+                    <TextBlock Margin="10,10,0,0" Text="Duración" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox x:Name="TextBoxDuracion" Margin="10,5,15,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
+                    <TextBlock Margin="10,10,0,0" Text="Hora Reserva" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox x:Name="TextBoxHoraReserva" Margin="10,5,15,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnNaranja}" BorderThickness="0,0,0,2" />
+                    <TextBlock x:Name="txtError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="#D7596D" Margin="10,10,0,0"/>
                     <Button Click="AddReserva_Click" Margin="10,20,10,10" Content="Añadir" Foreground="Black">
                         <Button.Style>
                             <Style TargetType="Button">
