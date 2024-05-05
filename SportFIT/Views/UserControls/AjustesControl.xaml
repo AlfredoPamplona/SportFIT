@@ -1,12 +1,96 @@
-﻿<UserControl x:Class="SportFIT.Views.UserControls.AjustesControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SportFIT.Views.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+﻿<UserControl 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:SportFIT.Views.UserControls"
+    xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+    xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="av"
+    x:Class="SportFIT.Views.UserControls.AjustesControl"
+    Background="{StaticResource BackgroundColor}"
+    Height="767"
+    Width="1178">
+
+    <Grid HorizontalAlignment="Stretch">
+        <fa:IconImage Foreground="{StaticResource NavegationColor}" Icon="ScrewdriverWrench" Width="47" Height="59" VerticalAlignment="Top"  HorizontalAlignment="Left" Margin="64,44,0,0"/>
+        <Button x:Name="btnAddUsuario"
+            Width="1047" HorizontalAlignment="Left" VerticalAlignment="Top"
+            Height="44" Margin="50,217,0,0" FontWeight="Bold"
+            Content="+" BorderThickness="1,1,0,1" FontSize="20" Click="btnAddUsuarios_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="White" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource MouseOverColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border BorderBrush="Black" BorderThickness="2" Height="44" CornerRadius="9" Background="{TemplateBinding Background}">
+                        <ContentPresenter VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBlock Foreground="{StaticResource NavegationColor}" HorizontalAlignment="Left" Margin="131,44,0,0" TextWrapping="Wrap" Text="Ajustes" FontSize="40" VerticalAlignment="Top" Height="54" Width="246"/>
+        <DataGrid x:Name="dataGridAjustes" FontSize="20" Margin="50,292,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" AutoGenerateColumns="False" Height="443" Width="1047">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding IdUsuario}" Width="40"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding NombreUsuario}" Width="*"/>
+                <DataGridTextColumn Header="Apellidos" Binding="{Binding ApellidoUsuario}" Width="*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding EmailUsuario}" Width="*"/>
+                <DataGridTextColumn Header="Rol" Binding="{Binding RolUsuario}" Width="*"/>
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Background="Transparent" BorderBrush="Transparent">
+                                <fa:IconImage Icon="TrashAlt" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Popup x:Name="popupAgregarUsuario" Placement="Center" StaysOpen="False">
+            <Border Background="White" BorderBrush="Black" BorderThickness="3" Padding="20" Width="450" Height="470">
+                <StackPanel>
+                    <TextBlock Margin="10,5,0,0" Text="Nombre" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox x:Name="TextBoxUsuario" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzulClaro}" BorderThickness="0,0,0,2" />
+                    <TextBlock Margin="10,0,0,0" Text="Apellidos" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox x:Name="TextBoxApellidos" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzulClaro}" BorderThickness="0,0,0,2" />
+                    <TextBlock Margin="10,0,0,0" Text="Email" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox x:Name="TextBoxEmail" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzulClaro}" BorderThickness="0,0,0,2" />
+                    <TextBlock Margin="10,0,0,0" Text="Contraseña" Foreground="{StaticResource NavegationColor}"/>
+                    <PasswordBox x:Name="passwordBox" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzulClaro}" BorderThickness="0,0,0,2" />
+                    <ComboBox x:Name="ComboBoxRoles" Foreground="{StaticResource NavegationColor}" Margin="10,5,10,15" SelectionChanged="ComboBoxRoles_SelectionChanged"/>
+                    <TextBlock Margin="10,0,0,0" Text="Pueblos" Foreground="{StaticResource NavegationColor}"/>
+                    <StackPanel x:Name="stackPanelPueblos" Margin="10,5,10,15" Orientation="Vertical"/>
+                    <TextBlock x:Name="txtError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="#D7596D" Margin="10,0,0,0"/>
+                    <Button Margin="10,20,10,10" Content="Añadir" Foreground="Black">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="{StaticResource BtnAzulClaro}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource BtnnOverAzulClaro}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border BorderBrush="Black" BorderThickness="2" Height="27" CornerRadius="9" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Popup>
     </Grid>
 </UserControl>

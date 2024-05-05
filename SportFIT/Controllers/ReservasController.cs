@@ -173,6 +173,54 @@ namespace SportFIT.Controllers
             return nombresInstalaciones;
         }
 
+        public string ComprobarDisponibilidad(int idInstalacion, DateTime fechaReserva, TimeSpan horaInicio, TimeSpan duracion)
+        {
+            string disponibilidad = "Disponible";
+
+            try
+            {
+                // Calcular la hora de finalización de la reserva que quieres verificar
+                TimeSpan horaFin = horaInicio.Add(duracion);
+
+                // Consulta para verificar la disponibilidad
+                string query = @"SELECT COUNT(*) FROM Reserva
+                                 WHERE id_instalacion = @idInstalacion
+                                 AND fecha_reserva = @fechaReserva
+                                 AND (
+                                     (@horaInicio >= hora_inicio AND @horaInicio < DATEADD(MINUTE, DATEDIFF(MINUTE, '00:00:00', duracion), hora_inicio))
+                                     OR
+                                     (@horaFin > hora_inicio AND @horaFin <= DATEADD(MINUTE, DATEDIFF(MINUTE, '00:00:00', duracion), hora_inicio)) 
+                                     OR
+                                     (@horaInicio <= hora_inicio AND @horaFin >= DATEADD(MINUTE, DATEDIFF(MINUTE, '00:00:00', duracion), hora_inicio)) 
+                                 )";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@idInstalacion", idInstalacion);
+                    command.Parameters.AddWithValue("@fechaReserva", fechaReserva);
+                    command.Parameters.AddWithValue("@horaInicio", horaInicio);
+                    command.Parameters.AddWithValue("@horaFin", horaFin);
+
+                    connection.Open();
+
+                    int reservaSuperpuesta = (int)command.ExecuteScalar();
+
+                    if (reservaSuperpuesta > 0)
+                    {
+                        disponibilidad = "No disponible";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al verificar disponibilidad: " + ex.Message);
+                disponibilidad = "Error";
+            }
+
+            return disponibilidad;
+        }
+
         public bool InsertarReserva(int idUsuario, int idInstalacion, DateTime fechaReserva, TimeSpan horaInicio, TimeSpan duracion)
         {
             try
@@ -200,6 +248,40 @@ namespace SportFIT.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine("Error al insertar reserva: " + ex.Message);
+                return false;
+            }
+        }
+        public bool ActualizarReserva(ReservaViewModel reservaActualizada)
+        {
+            try
+            {
+                // Consulta SQL para actualizar la reserva en la tabla Reserva
+                string query = @"UPDATE Reserva
+                                SET id_instalacion = (SELECT id_instalacion FROM Instalacion WHERE nombre_instalacion = @nombreInstalacion),
+                                    fecha_reserva = @fechaReserva,
+                                    hora_inicio = @horaInicio,
+                                    duracion = @duracion
+                                WHERE id_reserva = @idReserva";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@nombreInstalacion", reservaActualizada.NombreInstalacion);
+                    command.Parameters.AddWithValue("@fechaReserva", reservaActualizada.FechaReserva);
+                    command.Parameters.AddWithValue("@horaInicio", reservaActualizada.HoraInicio);
+                    command.Parameters.AddWithValue("@duracion", reservaActualizada.Duracion);
+                    command.Parameters.AddWithValue("@idReserva", reservaActualizada.IdReserva);
+
+                    connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    // Verificar si se actualizó correctamente (al menos una fila afectada)
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al actualizar reserva: " + ex.Message);
                 return false;
             }
         }

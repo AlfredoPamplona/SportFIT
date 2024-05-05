@@ -48,6 +48,31 @@ namespace SportFIT.Controllers
             return instalaciones;
         }
 
+        public bool EliminarInstalacion(int idInstalacion)
+        {
+            try
+            {
+                string query = @"DELETE FROM instalacion WHERE id_instalacion = @idInstalacion";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@idInstalacion", idInstalacion);
+
+                    connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    // Verificar si se eliminó correctamente (al menos una fila afectada)
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al eliminar reserva: " + ex.Message);
+                return false;
+            }
+        }
+
     }
 
 

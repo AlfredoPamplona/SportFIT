@@ -86,10 +86,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\AjustesController.cs" />
     <Compile Include="Controllers\InstalacionesController.cs" />
     <Compile Include="Controllers\PueblosController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Models\AjustesViewModel.cs" />
     <Compile Include="Models\InstalacionViewModel.cs" />
     <Compile Include="Models\ReservaViewModel.cs" />
     <Compile Include="Controllers\LoginController.cs" />

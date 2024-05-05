@@ -56,7 +56,7 @@
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent" BorderBrush="Transparent">
+                            <Button Click="DeleteInstalacion_Click" Background="Transparent" BorderBrush="Transparent">
                                 <fa:IconImage Icon="TrashAlt" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </DataTemplate>

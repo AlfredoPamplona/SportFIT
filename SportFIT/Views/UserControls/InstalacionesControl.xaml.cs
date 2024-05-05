@@ -139,5 +139,39 @@ namespace SportFIT.Views.UserControls
             //    MessageBox.Show("Error al agregar la reserva. Por favor, intenta nuevamente.");
             //}
         }
+
+        private void DeleteInstalacion_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.DataContext is InstalacionViewModel instalacion)
+            {
+                // Obtener el ID de la instalacion a eliminar
+                int idInstalacion = instalacion.IdInstalacion;
+
+                // Mostrar un MessageBox de confirmación
+                MessageBoxResult result = MessageBox.Show("¿Estás seguro de que deseas eliminar esta instalación?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    // El usuario confirmó la eliminación, procede a eliminar la instalacion
+                    bool instalacionEliminada = instalacionesController.EliminarInstalacion(idInstalacion);
+
+                    if (instalacionEliminada)
+                    {
+                        // Volver a cargar las instalaciones del pueblo seleccionado en el DataGrid
+                        if (comboBoxPueblos.SelectedItem != null)
+                        {
+                            string selectedPueblo = comboBoxPueblos.SelectedItem.ToString();
+                            int selectedPuebloId = pueblosController.ObtenerPuebloSelected(selectedPueblo);
+                            CargarInstalaciones(selectedPuebloId);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al eliminar la reserva. Por favor, intenta nuevamente.");
+                    }
+                }
+            }
+        }
+
     }
 }
