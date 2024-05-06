@@ -173,7 +173,7 @@ namespace SportFIT.Controllers
             return nombresInstalaciones;
         }
 
-        public string ComprobarDisponibilidad(int idInstalacion, DateTime fechaReserva, TimeSpan horaInicio, TimeSpan duracion)
+        public string ComprobarDisponibilidad(int idInstalacion, DateTime fechaReserva, TimeSpan horaInicio, TimeSpan duracion, int? idReservaExcluir = null)
         {
             string disponibilidad = "Disponible";
 
@@ -184,15 +184,20 @@ namespace SportFIT.Controllers
 
                 // Consulta para verificar la disponibilidad
                 string query = @"SELECT COUNT(*) FROM Reserva
-                                 WHERE id_instalacion = @idInstalacion
-                                 AND fecha_reserva = @fechaReserva
-                                 AND (
-                                     (@horaInicio >= hora_inicio AND @horaInicio < DATEADD(MINUTE, DATEDIFF(MINUTE, '00:00:00', duracion), hora_inicio))
-                                     OR
-                                     (@horaFin > hora_inicio AND @horaFin <= DATEADD(MINUTE, DATEDIFF(MINUTE, '00:00:00', duracion), hora_inicio)) 
-                                     OR
-                                     (@horaInicio <= hora_inicio AND @horaFin >= DATEADD(MINUTE, DATEDIFF(MINUTE, '00:00:00', duracion), hora_inicio)) 
-                                 )";
+                         WHERE id_instalacion = @idInstalacion
+                         AND fecha_reserva = @fechaReserva
+                         AND (
+                             (@horaInicio >= hora_inicio AND @horaInicio < DATEADD(MINUTE, DATEDIFF(MINUTE, '00:00:00', duracion), hora_inicio))
+                             OR
+                             (@horaFin > hora_inicio AND @horaFin <= DATEADD(MINUTE, DATEDIFF(MINUTE, '00:00:00', duracion), hora_inicio)) 
+                             OR
+                             (@horaInicio <= hora_inicio AND @horaFin >= DATEADD(MINUTE, DATEDIFF(MINUTE, '00:00:00', duracion), hora_inicio)) 
+                         )";
+
+                if (idReservaExcluir.HasValue)
+                {
+                    query += " AND id_reserva <> @idReservaExcluir";
+                }
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -201,6 +206,11 @@ namespace SportFIT.Controllers
                     command.Parameters.AddWithValue("@fechaReserva", fechaReserva);
                     command.Parameters.AddWithValue("@horaInicio", horaInicio);
                     command.Parameters.AddWithValue("@horaFin", horaFin);
+
+                    if (idReservaExcluir.HasValue)
+                    {
+                        command.Parameters.AddWithValue("@idReservaExcluir", idReservaExcluir.Value);
+                    }
 
                     connection.Open();
 

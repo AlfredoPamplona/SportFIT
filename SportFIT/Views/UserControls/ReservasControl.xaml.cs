@@ -16,6 +16,7 @@ namespace SportFIT.Views.UserControls
         private string usuario;
         private string password;
         private bool editingMode = false; // Variable para controlar si estamos en modo edición
+        private int idReservaEditar = -1; // Variable para almacenar el idReserva de la reserva que se está editando
 
         public ReservasControl(string connectionString, string usuario, string password)
         {
@@ -109,6 +110,7 @@ namespace SportFIT.Views.UserControls
             TextBoxDuracion.Text = "";
             TextBoxHoraReserva.Text = "";
             txtError.Text = "";
+            editingMode = false;
             btnEditAdd.Content = "Añadir";
             if (!popupAgregar.IsOpen)
             {
@@ -164,8 +166,7 @@ namespace SportFIT.Views.UserControls
 
             if (editingMode)
             {
-                editingMode = false;
-                if (dataGridReservas.SelectedItem != null && dataGridReservas.SelectedItem is ReservaViewModel reserva)
+                if (idReservaEditar != -1) // Verificar que tengamos un idReserva válido
                 {
                     // Obtener datos necesarios para la reserva actualizada
                     string selectedInstalacion = ComboBoxInstalaciones.SelectedItem.ToString();
@@ -174,29 +175,21 @@ namespace SportFIT.Views.UserControls
                     TimeSpan horaInicio = TimeSpan.Parse(TextBoxHoraReserva.Text);
                     TimeSpan duracion = TimeSpan.Parse(TextBoxDuracion.Text);
 
-                    // Verificar disponibilidad utilizando el método ComprobarDisponibilidad
-                    string disponibilidad = reservasController.ComprobarDisponibilidad(idInstalacion, fechaReserva, horaInicio, duracion);
-                    
-                    // Si estamos editando la misma reserva, entonces debemos ignorar esa reserva al comprobar disponibilidad
-                    if (reserva.NombreInstalacion == selectedInstalacion && reserva.FechaReserva == fechaReserva
-                        && reserva.HoraInicio == horaInicio)
-                    {
-                        disponibilidad = "Disponible"; // Ignorar esta reserva al verificar disponibilidad
-                    }
+                    // Verificar disponibilidad excluyendo la reserva que se está editando
+                    string disponibilidad = reservasController.ComprobarDisponibilidad(idInstalacion, fechaReserva, horaInicio, duracion, idReservaEditar);
+
                     if (disponibilidad == "Disponible")
                     {
                         // La instalación está disponible, proceder con la actualización de la reserva
-                        // Crear una instancia de ReservaViewModel con los datos actualizados
                         ReservaViewModel reservaActualizada = new ReservaViewModel
                         {
-                            IdReserva = reserva.IdReserva,
+                            IdReserva = idReservaEditar,
                             NombreInstalacion = selectedInstalacion,
                             FechaReserva = fechaReserva,
                             HoraInicio = horaInicio,
                             Duracion = duracion
                         };
 
-                        // Intentar actualizar la reserva en la base de datos
                         bool reservaModificada = reservasController.ActualizarReserva(reservaActualizada);
 
                         if (reservaModificada)
@@ -209,8 +202,6 @@ namespace SportFIT.Views.UserControls
                                 int selectedPuebloId = pueblosController.ObtenerPuebloSelected(selectedPueblo);
                                 CargarReservas(selectedPuebloId); // Recargar reservas en el DataGrid
                             }
-
-                            // Limpiar los campos
                             LimpiarCampos();
                         }
                         else
@@ -220,12 +211,12 @@ namespace SportFIT.Views.UserControls
                     }
                     else
                     {
-                        txtError.Text = $"La instalación no está disponible el {fechaReserva.ToShortDateString()} a las {horaInicio.ToString()}";
+                        txtError.Text = "La instalación no está disponible en el horario seleccionado.";
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Selecciona una reserva para editar.");
+                    MessageBox.Show("Error: No se ha seleccionado una reserva para editar.");
                 }
             }
             else
@@ -303,6 +294,9 @@ namespace SportFIT.Views.UserControls
                     TextBoxDuracion.Text = reserva.Duracion.ToString(@"hh\:mm");
                     TextBoxHoraReserva.Text = reserva.HoraInicio.ToString(@"hh\:mm");
 
+                    // Guardar el idReserva de la reserva que se está editando
+                    idReservaEditar = reserva.IdReserva;
+
                     //Activar modo edicion
                     editingMode = true;
 
@@ -318,6 +312,9 @@ namespace SportFIT.Views.UserControls
                         datePickerFecha.SelectedDate = reserva.FechaReserva;
                         TextBoxDuracion.Text = reserva.Duracion.ToString(@"hh\:mm");
                         TextBoxHoraReserva.Text = reserva.HoraInicio.ToString(@"hh\:mm");
+
+                        // Guardar el idReserva de la reserva que se está editando
+                        idReservaEditar = reserva.IdReserva;
 
                         //Activar modo edicion
                         editingMode = true;
