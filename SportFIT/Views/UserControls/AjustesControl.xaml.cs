@@ -99,11 +99,6 @@ namespace SportFIT.Views.UserControls
                 popupAgregarUsuario.IsOpen = false;
             }
         }
-        //private void btnAddUsuario(object sender, RoutedEventArgs e)
-        //{
-        //    MessageBox.Show("CLICK");
-
-        //}
     }
 }
     

@@ -56,6 +56,12 @@
     <Reference Include="FontAwesome.Sharp, Version=6.3.0.0, Culture=neutral, PublicKeyToken=d16d1e4e568ec10f, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.Sharp.6.3.0\lib\net472\FontAwesome.Sharp.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.77\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
@@ -87,6 +93,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\AjustesController.cs" />
+    <Compile Include="Controllers\EstadisticasController.cs" />
     <Compile Include="Controllers\InstalacionesController.cs" />
     <Compile Include="Controllers\PueblosController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
@@ -108,6 +115,9 @@
     <Compile Include="Views\UserControls\AjustesControl.xaml.cs">
       <DependentUpon>AjustesControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\EstadisticasControl.xaml.cs">
+      <DependentUpon>EstadisticasControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\InstalacionesControl.xaml.cs">
       <DependentUpon>InstalacionesControl.xaml</DependentUpon>
     </Compile>
@@ -128,6 +138,10 @@
     </Page>
     <Page Include="Views\MainView.xaml" />
     <Page Include="Views\UserControls\AjustesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\EstadisticasControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

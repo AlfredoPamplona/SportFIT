@@ -40,7 +40,9 @@ namespace SportFIT.Views
                         mainGrid.Children.Add(userControlToShow);
                         break;
                     case "estadisticasButton":
+                        userControlToShow = new EstadisticasControl(ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString, usuario, password);
                         mainGrid.Children.Clear();
+                        mainGrid.Children.Add(userControlToShow);
                         break;
                     case "ajustesButton":
                         userControlToShow = new AjustesControl(ConfigurationManager.ConnectionStrings["DBContextSportFIT"].ConnectionString, usuario, password);

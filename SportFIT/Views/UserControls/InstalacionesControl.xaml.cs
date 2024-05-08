@@ -78,66 +78,7 @@ namespace SportFIT.Views.UserControls
         private void btnAddInstalacion(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("CLICK");
-            //txtError.Text = ""; // Limpiar mensaje de error
-
-            //// Validar que se hayan seleccionado todos los elementos necesarios
-            //if (ComboBoxUser.SelectedIndex <= 0 ||
-            //    ComboBoxInstalaciones.SelectedIndex <= 0 ||
-            //    string.IsNullOrWhiteSpace(TextBoxDuracion.Text) ||
-            //    string.IsNullOrWhiteSpace(TextBoxHoraReserva.Text) ||
-            //    datePickerFecha.SelectedDate == null)
-            //{
-            //    txtError.Text = "Por favor, completa todos los campos antes de agregar la reserva.";
-            //    return;
-            //}
-
-            //// Validar el formato de la duración
-            //if (!IsValidDuration(TextBoxDuracion.Text))
-            //{
-            //    txtError.Text = "Por favor, introduce la duración en el formato correcto (ejemplo: '2:00').";
-            //    return;
-            //}
-
-            //// Validar el formato de la hora de reserva
-            //if (!IsValidTime(TextBoxHoraReserva.Text))
-            //{
-            //    txtError.Text = "Por favor, introduce la hora de reserva en el formato correcto (ejemplo: '11:30').";
-            //    return;
-            //}
-
-            //// Obtener los valores seleccionados de los ComboBox
-            //string selectedUser = ComboBoxUser.SelectedItem.ToString();
-            //string selectedInstalacion = ComboBoxInstalaciones.SelectedItem.ToString();
-
-            //// Obtener los IDs correspondientes a partir de los nombres seleccionados
-            //int idUsuario = reservasController.ObtenerUserSelected(selectedUser);
-            //int idInstalacion = reservasController.ObtenerInstalacionSelected(selectedInstalacion);
-
-            //// Obtener la fecha de reserva y la hora de inicio
-            //DateTime fechaReserva = datePickerFecha.SelectedDate.Value;
-            //TimeSpan horaInicio = TimeSpan.Parse(TextBoxHoraReserva.Text);
-            //int duracion = Convert.ToInt32(TextBoxDuracion.Text);
-
-            //// Insertar la reserva utilizando el controlador de reservas
-            //bool reservaInsertada = reservasController.InsertarReserva(idUsuario, idInstalacion, fechaReserva, horaInicio, duracion);
-
-            //// Mostrar mensaje de éxito o error según el resultado de la inserción
-            //if (reservaInsertada)
-            //{
-            //    MessageBox.Show("Reserva agregada correctamente.");
-
-            //    // Volver a cargar las reservas del pueblo seleccionado en el DataGrid
-            //    if (comboBoxPueblos.SelectedItem != null)
-            //    {
-            //        string selectedPueblo = comboBoxPueblos.SelectedItem.ToString();
-            //        int selectedPuebloId = pueblosController.ObtenerPuebloSelected(selectedPueblo);
-            //        CargarReservas(selectedPuebloId);
-            //    }
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Error al agregar la reserva. Por favor, intenta nuevamente.");
-            //}
+            //FALTA AÑADIR INSTALACIONES
         }
 
         private void DeleteInstalacion_Click(object sender, RoutedEventArgs e)
@@ -167,7 +108,7 @@ namespace SportFIT.Views.UserControls
                     }
                     else
                     {
-                        MessageBox.Show("Error al eliminar la reserva. Por favor, intenta nuevamente.");
+                        MessageBox.Show("Error al eliminar la instalacion. Por favor, intenta nuevamente.");
                     }
                 }
             }
