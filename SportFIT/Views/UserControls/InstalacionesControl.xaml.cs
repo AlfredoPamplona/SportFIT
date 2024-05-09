@@ -1,5 +1,6 @@
 ﻿using SportFIT.Controllers;
 using SportFIT.Models;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -77,8 +78,54 @@ namespace SportFIT.Views.UserControls
         }
         private void btnAddInstalacion(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("CLICK");
-            //FALTA AÑADIR INSTALACIONES
+            txtError.Text = ""; // Limpiar mensaje de error
+
+            // Validar que se hayan seleccionado todos los elementos necesarios
+            if (string.IsNullOrWhiteSpace(TextBoxNombre.Text) ||
+                string.IsNullOrWhiteSpace(TextBoxTipoInstalacion.Text) ||
+                string.IsNullOrWhiteSpace(TextBoxDireccion.Text))
+            {
+                txtError.Text = "Por favor, completa todos los campos antes de agregar la reserva.";
+                return;
+            }
+            try
+            {
+                // Obtener el nombre del pueblo seleccionado
+                string selectedPueblo = comboBoxPueblos.SelectedItem.ToString();
+
+                // Obtener el ID del pueblo seleccionado
+                int selectedPuebloId = pueblosController.ObtenerPuebloSelected(selectedPueblo);
+
+                // Obtener los datos de la instalación desde los TextBox
+                string instalacion = TextBoxNombre.Text;
+                string tipo = TextBoxTipoInstalacion.Text;
+                string direccion = TextBoxDireccion.Text;
+
+                // Insertar la nueva instalación utilizando el InstalacionesController
+                bool instalacionInsertada = instalacionesController.InsertarInstalacion(selectedPuebloId, instalacion, direccion, tipo);
+
+                if (instalacionInsertada)
+                {
+                    // Limpiar los campos después de una inserción exitosa
+                    TextBoxNombre.Text = "";
+                    TextBoxTipoInstalacion.Text = "";
+                    TextBoxDireccion.Text = "";
+
+                    // Cerrar el popup de agregar instalación
+                    popupAgregarInstalacion.IsOpen = false;
+
+                    // Actualizar el DataGrid con las instalaciones del pueblo seleccionado
+                    CargarInstalaciones(selectedPuebloId);
+                }
+                else
+                {
+                    MessageBox.Show("Error al insertar la instalación. Por favor, intenta nuevamente.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al insertar la instalación: {ex.Message}");
+            }
         }
 
         private void DeleteInstalacion_Click(object sender, RoutedEventArgs e)

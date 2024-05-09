@@ -47,15 +47,6 @@
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent" BorderBrush="Transparent">
-                                <fa:IconImage Icon="Edit" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
                             <Button Click="DeleteInstalacion_Click" Background="Transparent" BorderBrush="Transparent">
                                 <fa:IconImage Icon="TrashAlt" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
@@ -65,13 +56,13 @@
             </DataGrid.Columns>
         </DataGrid>
         <Popup x:Name="popupAgregarInstalacion" Placement="Center" StaysOpen="False">
-            <Border Background="White" BorderBrush="Black" BorderThickness="3" Padding="20" Width="450" Height="400">
+            <Border Background="White" BorderBrush="Black" BorderThickness="3" Padding="20" Width="450" Height="350">
                 <StackPanel>
-                    <TextBlock Margin="10,5,10,15" Text="Instalación" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBlock Margin="10,30,0,0" Text="Instalación" Foreground="{StaticResource NavegationColor}"/>
                     <TextBox x:Name="TextBoxNombre" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzul}" BorderThickness="0,0,0,2" />
-                    <TextBlock Margin="10,0,0,0" Text="Tipo de Instalación" Foreground="{StaticResource NavegationColor}"/>
-                    <TextBox x:Name="TextBoxInstalacion" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzul}" BorderThickness="0,0,0,2" />
-                    <TextBlock Margin="10,0,0,0" Text="Dirección" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBlock Margin="10,10,0,0" Text="Tipo de Instalación" Foreground="{StaticResource NavegationColor}"/>
+                    <TextBox x:Name="TextBoxTipoInstalacion" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzul}" BorderThickness="0,0,0,2" />
+                    <TextBlock Margin="10,10,0,0" Text="Dirección" Foreground="{StaticResource NavegationColor}"/>
                     <TextBox x:Name="TextBoxDireccion" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzul}" BorderThickness="0,0,0,2" />
                     <TextBlock x:Name="txtError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="#D7596D" Margin="10,0,0,0"/>
                     <Button Click="btnAddInstalacion" Margin="10,20,10,10" Content="Añadir" Foreground="Black">

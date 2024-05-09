@@ -48,6 +48,34 @@ namespace SportFIT.Controllers
             return instalaciones;
         }
 
+        public bool InsertarInstalacion(int idPueblo, string instalacion, string direccion, string tipo)
+        {
+            try
+            {
+                string query = @"INSERT INTO instalacion (nombre_instalacion, tipo, direccion, id_pueblo) VALUES ( @instalacion, @tipo, @direccion, @idPueblo)";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@instalacion", instalacion);
+                    command.Parameters.AddWithValue("@tipo", tipo);
+                    command.Parameters.AddWithValue("@direccion", direccion);
+                    command.Parameters.AddWithValue("@idPueblo", idPueblo);
+
+                    connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    // Verificar si se inserto correctamente (al menos una fila afectada)
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al insertar reserva: " + ex.Message);
+                return false;
+            }
+        }
+
         public bool EliminarInstalacion(int idInstalacion)
         {
             try
