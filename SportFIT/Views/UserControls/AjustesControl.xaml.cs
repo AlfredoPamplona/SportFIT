@@ -1,6 +1,7 @@
 ﻿using SportFIT.Controllers;
 using SportFIT.Models;
 using System.Collections.Generic;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -87,9 +88,38 @@ namespace SportFIT.Views.UserControls
             List<AjustesViewModel> usuarios = ajustesController.ObtenerUsuarios();
             dataGridAjustes.ItemsSource = usuarios;
         }
-        private void btnAddUsuarios_Click(object sender, RoutedEventArgs e)
+
+        private void DeleteUsuario_Click(object sender, RoutedEventArgs e)
         {
-            //txtError.Text = "";
+            if (sender is Button btn && btn.DataContext is AjustesViewModel usuario)
+            {
+                // Obtener el ID del usuario a eliminar
+                int idUsuario = usuario.IdUsuario;
+
+                // Mostrar un MessageBox de confirmación
+                MessageBoxResult result = MessageBox.Show("¿Estás seguro de que deseas eliminar este usuario?", "Confirmar Eliminación", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    // El usuario confirmó la eliminación, procede a eliminar el usuario
+                    bool usuarioEliminado = ajustesController.EliminarUsuario(idUsuario);
+
+                    if (usuarioEliminado)
+                    {
+                        MessageBox.Show("Usuario eliminado correctamente.");
+                        CargarUsuarios(); // Volver a cargar la lista de usuarios en el DataGrid
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al eliminar el usuario. Por favor, intenta nuevamente.");
+                    }
+                }
+            }
+        }
+
+        private void btnPopUpAddUsuarios_Click(object sender, RoutedEventArgs e)
+        {
+            txtError.Text = "";
             if (!popupAgregarUsuario.IsOpen)
             {
                 popupAgregarUsuario.IsOpen = true;
@@ -97,6 +127,63 @@ namespace SportFIT.Views.UserControls
             else
             {
                 popupAgregarUsuario.IsOpen = false;
+            }
+        }
+
+        private void btnAddUsuarios(object sender, RoutedEventArgs e)
+        {
+            txtError.Text = "";
+
+            // Obtener datos del nuevo usuario desde los controles en la interfaz de usuario
+            string nombre = TextBoxUsuario.Text.Trim();
+            string apellidos = TextBoxApellidos.Text.Trim();
+            string email = TextBoxEmail.Text.Trim();
+            string password = new NetworkCredential(string.Empty, passwordBox.SecurePassword).Password.Trim(); // Obtener contraseña como string
+
+            // Validar campos obligatorios
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(email) || passwordBox.SecurePassword.Length == 0)
+            {
+                txtError.Text = "Por favor, completa todos los campos obligatorios.";
+                return;
+            }
+
+            // Obtener el rol seleccionado (ComboBox)
+            string rol = ComboBoxRoles.SelectedItem?.ToString();
+
+            if (string.IsNullOrEmpty(rol) || rol.Equals("Rol"))
+            {
+                txtError.Text = "Por favor, selecciona un rol.";
+                return;
+            }
+
+            // Obtener los pueblos seleccionados (CheckBoxes)
+            List<string> pueblosSeleccionados = new List<string>();
+            foreach (var child in stackPanelPueblos.Children)
+            {
+                if (child is CheckBox checkBox && checkBox.IsChecked == true)
+                {
+                    pueblosSeleccionados.Add(checkBox.Content.ToString());
+                }
+            }
+
+            // Validar que al menos se haya seleccionado un pueblo
+            if (pueblosSeleccionados.Count == 0)
+            {
+                txtError.Text = "Por favor, selecciona al menos un pueblo.";
+                return;
+            }
+
+            // Insertar el nuevo usuario en la base de datos
+            bool usuarioInsertado = ajustesController.InsertarUsuario(nombre, apellidos, email, password, rol, pueblosSeleccionados);
+            if (usuarioInsertado)
+            {
+                MessageBox.Show("Usuario insertado correctamente.");
+                CargarUsuarios(); // Volver a cargar la lista de usuarios en el DataGrid
+                popupAgregarUsuario.IsOpen = false; // Cerrar el popup de agregar usuario
+            }
+            else
+            {
+                MessageBox.Show("Error al insertar el usuario. Por favor, intenta nuevamente.");
             }
         }
     }

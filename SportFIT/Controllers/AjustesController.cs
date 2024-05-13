@@ -71,6 +71,7 @@ namespace SportFIT.Controllers
             }
             return idRol;
         }
+
         public List<AjustesViewModel> ObtenerUsuarios()
         {
             List<AjustesViewModel> usuarios = new List<AjustesViewModel>();
@@ -110,6 +111,124 @@ namespace SportFIT.Controllers
             }
 
             return usuarios;
+        }
+
+        public bool InsertarUsuario(string nombre, string apellidos, string email, string password, string rol, List<string> pueblos)
+        {
+            string hashedPassword = LoginController.HashPassword(password);
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Insertar el nuevo usuario en la tabla Usuario
+                    string insertUsuarioQuery = "INSERT INTO Usuario (nombre_usuario, apellidos_usuario, email, password, id_rol) VALUES (@Nombre, @Apellidos, @Email, @Password, @IdRol); SELECT SCOPE_IDENTITY()";
+                    SqlCommand insertUsuarioCommand = new SqlCommand(insertUsuarioQuery, connection);
+                    insertUsuarioCommand.Parameters.AddWithValue("@Nombre", nombre);
+                    insertUsuarioCommand.Parameters.AddWithValue("@Apellidos", string.IsNullOrEmpty(apellidos) ? DBNull.Value : (object)apellidos);
+                    insertUsuarioCommand.Parameters.AddWithValue("@Email", email);
+                    insertUsuarioCommand.Parameters.AddWithValue("@Password", hashedPassword); // Almacenar el hash de la contraseña
+                    insertUsuarioCommand.Parameters.AddWithValue("@IdRol", ObtenerIdRol(rol)); // Obtener el ID del rol
+
+                    int idUsuario = Convert.ToInt32(insertUsuarioCommand.ExecuteScalar()); // Obtener el ID del nuevo usuario insertado
+
+                    // Insertar los pueblos asociados al nuevo usuario en la tabla Usuario_Pueblo
+                    foreach (string pueblo in pueblos)
+                    {
+                        int idPueblo = ObtenerIdPueblo(pueblo); // Obtener el ID del pueblo
+
+                        if (idPueblo > 0)
+                        {
+                            string insertUsuarioPuebloQuery = "INSERT INTO Usuario_Pueblo (id_usuario, id_pueblo) VALUES (@IdUsuario, @IdPueblo)";
+                            SqlCommand insertUsuarioPuebloCommand = new SqlCommand(insertUsuarioPuebloQuery, connection);
+                            insertUsuarioPuebloCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                            insertUsuarioPuebloCommand.Parameters.AddWithValue("@IdPueblo", idPueblo);
+                            insertUsuarioPuebloCommand.ExecuteNonQuery(); // Ejecutar la inserción del pueblo asociado al usuario
+                        }
+                        else
+                        {
+                            Console.WriteLine("No se encontró el ID del pueblo asociado: " + pueblo);
+                            return false;
+                        }
+                    }
+
+                    return true; // Indicar que la inserción fue exitosa
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al insertar usuario: " + ex.Message);
+                return false;
+            }
+        }
+
+        private int ObtenerIdRol(string rol)
+        {
+            int idRol = 0;
+            string query = "SELECT id_rol FROM Rol WHERE nombre_rol = @RolNombre";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@RolNombre", rol);
+                connection.Open();
+                object result = command.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                {
+                    idRol = Convert.ToInt32(result);
+                }
+            }
+            return idRol;
+        }
+
+        private int ObtenerIdPueblo(string pueblo)
+        {
+            int idPueblo = 0;
+            string query = "SELECT id_pueblo FROM Pueblo WHERE nombre_pueblo = @PuebloNombre";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@PuebloNombre", pueblo);
+                connection.Open();
+                object result = command.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                {
+                    idPueblo = Convert.ToInt32(result);
+                }
+            }
+            return idPueblo;
+        }
+
+        public bool EliminarUsuario(int idUsuario)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Eliminar el usuario de la tabla Usuario_Pueblo
+                    string deleteUsuarioPuebloQuery = "DELETE FROM Usuario_Pueblo WHERE id_usuario = @IdUsuario";
+                    SqlCommand deleteUsuarioPuebloCommand = new SqlCommand(deleteUsuarioPuebloQuery, connection);
+                    deleteUsuarioPuebloCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                    deleteUsuarioPuebloCommand.ExecuteNonQuery();
+
+                    // Eliminar el usuario de la tabla Usuario
+                    string deleteUsuarioQuery = "DELETE FROM Usuario WHERE id_usuario = @IdUsuario";
+                    SqlCommand deleteUsuarioCommand = new SqlCommand(deleteUsuarioQuery, connection);
+                    deleteUsuarioCommand.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                    int rowsAffected = deleteUsuarioCommand.ExecuteNonQuery();
+
+                    // Verificar si se eliminó correctamente (al menos una fila afectada en Usuario)
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al eliminar usuario: " + ex.Message);
+                return false;
+            }
         }
     }
 }

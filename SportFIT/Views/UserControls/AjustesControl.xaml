@@ -16,7 +16,7 @@
         <Button x:Name="btnAddUsuario"
             Width="1047" HorizontalAlignment="Left" VerticalAlignment="Top"
             Height="44" Margin="50,217,0,0" FontWeight="Bold"
-            Content="+" BorderThickness="1,1,0,1" FontSize="20" Click="btnAddUsuarios_Click">
+            Content="+" BorderThickness="1,1,0,1" FontSize="20" Click="btnPopUpAddUsuarios_Click">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="White" />
@@ -47,7 +47,7 @@
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent" BorderBrush="Transparent">
+                            <Button Click="DeleteUsuario_Click" Background="Transparent" BorderBrush="Transparent">
                                 <fa:IconImage Icon="TrashAlt" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </DataTemplate>
@@ -70,7 +70,7 @@
                     <TextBlock Margin="10,0,0,0" Text="Pueblos" Foreground="{StaticResource NavegationColor}"/>
                     <StackPanel x:Name="stackPanelPueblos" Margin="10,5,10,15" Orientation="Vertical"/>
                     <TextBlock x:Name="txtError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="#D7596D" Margin="10,0,0,0"/>
-                    <Button Margin="10,20,10,10" Content="Añadir" Foreground="Black">
+                    <Button Click="btnAddUsuarios" Margin="10,20,10,10" Content="Añadir" Foreground="Black">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="{StaticResource BtnAzulClaro}" />
