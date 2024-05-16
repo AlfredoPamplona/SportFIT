@@ -26,7 +26,7 @@
 
         <Button
             Width="1037" HorizontalAlignment="Left" VerticalAlignment="Top"
-            Height="54" Margin="50,514,0,0" FontWeight="Bold"
+            Height="54" Margin="50,514,0,0" FontWeight="Bold" Click="InformeAgrupacionInstalaciones_Click"
             Content="Informe de agrupación de reservas por instalación" BorderThickness="1,1,0,1" FontSize="20">
             <Button.Style>
                 <Style TargetType="Button">
