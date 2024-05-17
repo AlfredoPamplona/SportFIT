@@ -164,6 +164,15 @@ namespace SportFIT.Views.UserControls
                 return;
             }
 
+            DateTime fechaReservaValida = datePickerFecha.SelectedDate.Value;
+
+            // Validar que la fecha es posterior o igual a hoy
+            if (fechaReservaValida.Date < DateTime.Today)
+            {
+                txtError.Text = "La fecha de reserva no puede ser anterior a hoy.";
+                return;
+            }
+
             if (editingMode)
             {
                 if (idReservaEditar != -1) // Verificar que tengamos un idReserva válido

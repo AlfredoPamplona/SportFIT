@@ -23,6 +23,7 @@
         <lvc:CartesianChart x:Name="LineChart"  LegendLocation="Right" Margin="735,208,91,299" >
             <!-- Configuración del gráfico lineal -->
         </lvc:CartesianChart>
+        
 
         <Button
             Width="1037" HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -49,7 +50,7 @@
         </Button>
         <Button
     Width="1037" HorizontalAlignment="Left" VerticalAlignment="Top"
-    Height="54" Margin="50,597,0,0" FontWeight="Bold"
+    Height="54" Margin="50,597,0,0" FontWeight="Bold" Click="AbrirPopUpFechas_Click"
     Content="Informe de agrupación de reservas por un rango de fechas" BorderThickness="1,1,0,1" FontSize="20">
             <Button.Style>
                 <Style TargetType="Button">
@@ -72,7 +73,7 @@
         </Button>
         <Button
     Width="1037" HorizontalAlignment="Left" VerticalAlignment="Top"
-    Height="54" Margin="50,676,0,0" FontWeight="Bold"
+    Height="54" Margin="50,676,0,0" FontWeight="Bold" Click="InformeHorasUsuario_Click"
     Content="Informe de horas reservadas por usuario" BorderThickness="1,1,0,1" FontSize="20">
             <Button.Style>
                 <Style TargetType="Button">
@@ -93,5 +94,35 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Popup x:Name="popupFechas" Placement="Center" StaysOpen="False">
+            <Border Background="White" BorderBrush="Black" BorderThickness="3" Padding="20" Width="400" Height="350">
+                <StackPanel>
+                    <TextBlock Margin="10,40,0,0" Text="Fecha inicio" Foreground="{StaticResource NavegationColor}"/>
+                    <DatePicker x:Name="datePickerFechaDesde" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzulClaro}" BorderThickness="2"/>
+                    <TextBlock Margin="10,20,0,0" Text="Fecha fin" Foreground="{StaticResource NavegationColor}"/>
+                    <DatePicker x:Name="datePickerFechaHasta" Margin="10,5,10,15" Foreground="{StaticResource NavegationColor}" BorderBrush="{StaticResource BtnAzulClaro}" BorderThickness="2"/>
+                    <TextBlock x:Name="txtError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="#D7596D" Margin="10,10,0,0"/>
+                    <Button Click="rangoFechas_Click"  Margin="10,30,10,10" Content="Aplicar" Foreground="Black">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="{StaticResource BtnAzulClaro}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource BtnnOverAzulClaro}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border BorderBrush="Black" BorderThickness="2" Height="27" CornerRadius="9" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Popup>
     </Grid>
 </UserControl>

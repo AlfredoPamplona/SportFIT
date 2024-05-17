@@ -7,37 +7,33 @@
       <MS_x0020_SQL Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlDatabase" isKey="true">
         <Alias>MS SQL</Alias>
         <ConnectionStringEncrypted>9GD3SE8KAcXiW7VQSdilP9FaaStFTLsFRVvoBE2IpPvDeGXJWVmjzWJN1dTqhOIPgVpxKMYYohn8eD29w5igY9Vw4c1MVpKdeVrtvXNM4RP5xHUjWkz7WWlhzf15WGLn1Vb5aF9rAe3hCE0=</ConnectionStringEncrypted>
-        <Key>e7706bd5d0724c3a815f18f2ebd69187</Key>
         <Name>MS SQL</Name>
       </MS_x0020_SQL>
     </Databases>
     <DataSources isList="true" count="1">
       <FuenteDeDatos2 Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
         <Alias>FuenteDeDatos2</Alias>
-        <Columns isList="true" count="8">
-          <value>ORIGINAL,id_instalacion,id_instalacion,id_instalacion,System.Int32,_x0036_e7f51e67e8e4f6f9f9927cde713b793</value>
-          <value>ORIGINAL,nombre_instalacion,nombre_instalacion,nombre_instalacion,System.String,_x0036_9d4872ba98546eead99b751f6dccfe0</value>
-          <value>ORIGINAL,nombre_usuario,nombre_usuario,nombre_usuario,System.String,_x0038_f158fa18e2c4a64a5e56bafcf16e64e</value>
-          <value>ORIGINAL,apellidos_usuario,apellidos_usuario,apellidos_usuario,System.String,_x0034_8bab95f62b2423db1e6139a33afeaa9</value>
-          <value>ORIGINAL,email,email,email,System.String,b0bb5816551444efa764c5bf5947ebd6</value>
-          <value>ORIGINAL,fecha_reserva,fecha_reserva,fecha_reserva,System.DateTime,a9917fb13cde43c585d37502fe7aeb37</value>
-          <value>hora_inicio,System.TimeSpan</value>
-          <value>hora_fin,System.TimeSpan</value>
+        <Columns isList="true" count="2">
+          <value>Usuario,System.String</value>
+          <value>Total_Horas_Reservadas,System.String</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
-        <Key>fc15a3b43f8b414aadb1b1f9a0b3f09f</Key>
+        <Dictionary isRef="1" />
+        <Key>d5ec22c5158a448d9d92e0c8c4a27ed5</Key>
         <Name>FuenteDeDatos2</Name>
         <NameInSource>MS SQL</NameInSource>
         <Parameters isList="true" count="1">
           <value>PuebloId,,8,0</value>
         </Parameters>
-        <SqlCommand>SELECT I.id_instalacion, I.nombre_instalacion, U.nombre_usuario, U.apellidos_usuario, U.email, R.fecha_reserva, R.hora_inicio, R.hora_fin
-FROM Instalacion I
-INNER JOIN Reserva R ON R.id_instalacion = I.id_instalacion
-INNER JOIN Usuario U ON U.id_usuario = R.id_usuario
-INNER JOIN Pueblo P ON P.id_pueblo = I.id_pueblo
-WHERE P.id_pueblo = @PuebloId
-ORDER BY I.id_instalacion, R.fecha_reserva;</SqlCommand>
+        <SqlCommand>SELECT u.nombre_usuario AS Usuario,
+       RIGHT('0' + CAST(SUM(DATEDIFF(MINUTE, '00:00:00', r.duracion)) / 60 AS VARCHAR), 2) + ':' +
+       RIGHT('0' + CAST(SUM(DATEDIFF(MINUTE, '00:00:00', r.duracion)) % 60 AS VARCHAR), 2) AS Total_Horas_Reservadas
+FROM Reserva r JOIN Usuario u ON r.id_usuario = u.id_usuario
+               JOIN Usuario_Pueblo up ON u.id_usuario = up.id_usuario
+               JOIN Instalacion i ON r.id_instalacion = i.id_instalacion
+WHERE up.id_pueblo = @PuebloId and up.id_pueblo=i.id_pueblo
+GROUP BY u.nombre_usuario
+ORDER BY Total_Horas_Reservadas DESC;</SqlCommand>
       </FuenteDeDatos2>
     </DataSources>
     <Relations isList="true" count="0" />
@@ -48,41 +44,18 @@ ORDER BY I.id_instalacion, R.fecha_reserva;</SqlCommand>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
   <GlobalizationStrings isList="true" count="0" />
-  <Key>d43133acfbf6427592757469ceee3926</Key>
+  <Key>a52c45029dae4707aefeef1c59c6eff5</Key>
   <MetaTags isList="true" count="0" />
   <Pages isList="true" count="1">
     <Page1 Ref="4" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components isList="true" count="6">
-        <PageFooterBand1 Ref="5" type="PageFooterBand" isKey="true">
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0,26.9,19,0.8</ClientRectangle>
-          <Components isList="true" count="1">
-            <Text1 Ref="6" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>17.2,0.1,1.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <Name>Text1</Name>
-              <Page isRef="4" />
-              <Parent isRef="5" />
-              <Text>{PageNofM}</Text>
-              <TextBrush>Black</TextBrush>
-            </Text1>
-          </Components>
-          <Conditions isList="true" count="0" />
-          <Expressions isList="true" count="0" />
-          <Name>PageFooterBand1</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-        </PageFooterBand1>
-        <ReportTitle Ref="7" type="ReportTitleBand" isKey="true">
+      <Components isList="true" count="5">
+        <ReportTitleBand1 Ref="5" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0.4,19,5.6</ClientRectangle>
           <Components isList="true" count="3">
-            <Image1 Ref="8" type="Image" isKey="true">
+            <Image1 Ref="6" type="Image" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,4.8,4.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -540,9 +513,9 @@ NiswMDowMHCCRcIAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDUtMTRUMTY6MzI6MzYrMDA6MDAB
 AABJRU5ErkJggg==</ImageBytes>
               <Name>Image1</Name>
               <Page isRef="4" />
-              <Parent isRef="7" />
+              <Parent isRef="5" />
             </Image1>
-            <Text3 Ref="9" type="Text" isKey="true">
+            <Text3 Ref="7" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.2,2.6,13.2,1</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -551,13 +524,13 @@ AABJRU5ErkJggg==</ImageBytes>
               <HorAlignment>Center</HorAlignment>
               <Name>Text3</Name>
               <Page isRef="4" />
-              <Parent isRef="7" />
-              <Text>Informe de agrupación de reservas por instalación</Text>
+              <Parent isRef="5" />
+              <Text>Informe de agrupación de horas reservadas por usuario</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text3>
-            <Text2 Ref="10" type="Text" isKey="true">
+            <Text2 Ref="8" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>5.2,1.4,13.2,1.2</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -566,8 +539,8 @@ AABJRU5ErkJggg==</ImageBytes>
               <HorAlignment>Center</HorAlignment>
               <Name>Text2</Name>
               <Page isRef="4" />
-              <Parent isRef="7" />
-              <Text>Informe Agrupación Reservas</Text>
+              <Parent isRef="5" />
+              <Text>Informe Horas Reservadas</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -575,461 +548,144 @@ AABJRU5ErkJggg==</ImageBytes>
           </Components>
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
-          <Name>ReportTitle</Name>
+          <Name>ReportTitleBand1</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-        </ReportTitle>
-        <GroupHeader0 Ref="11" type="GroupHeaderBand" isKey="true">
+        </ReportTitleBand1>
+        <DataBand1 Ref="9" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,6.8,19,0.8</ClientRectangle>
-          <Components isList="true" count="1">
-            <GroupHeaderText0 Ref="12" type="Text" isKey="true">
-              <Border>Top, Bottom;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>0,0,19,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Group_Header1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,13,Bold</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <Name>GroupHeaderText0</Name>
-              <Page isRef="4" />
-              <Parent isRef="11" />
-              <Text>{FuenteDeDatos2.nombre_instalacion}</Text>
-              <TextBrush>[79:129:189]</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <VertAlignment>Center</VertAlignment>
-            </GroupHeaderText0>
-          </Components>
-          <Condition>{FuenteDeDatos2.nombre_instalacion}</Condition>
+          <Components isList="true" count="0" />
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
-          <Name>GroupHeader0</Name>
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-        </GroupHeader0>
-        <Data Ref="13" type="Stimulsoft.Report.Components.Table.StiTable" isKey="true">
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <Header Ref="10" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
-          <BusinessObjectGuid isNull="true" />
-          <ClientRectangle>0,8.4,19,2.4</ClientRectangle>
-          <ColumnCount>6</ColumnCount>
-          <Components isList="true" count="18">
-            <Data_Cell1 Ref="14" type="TableCell" isKey="true">
+          <ClientRectangle>0,8.4,19,0.6</ClientRectangle>
+          <Components isList="true" count="2">
+            <HeaderText1 Ref="11" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>[79:129:189]</Brush>
-              <ClientRectangle>0,0,3.2,0.8</ClientRectangle>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,9.6,0.6</ClientRectangle>
               <ComponentStyle>Blue Steel_Header1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,9.75,Bold,Point,False,204</Font>
               <GrowToHeight>True</GrowToHeight>
               <HorAlignment>Center</HorAlignment>
-              <ID>0</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell1</Name>
+              <Name>HeaderText1</Name>
               <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>Nombre Usuario</Text>
+              <Parent isRef="10" />
+              <Text>Usuario</Text>
               <TextBrush>White</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </Data_Cell1>
-            <Data_Cell2 Ref="15" type="TableCell" isKey="true">
+            </HeaderText1>
+            <HeaderText2 Ref="12" type="Text" isKey="true">
               <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
               <Brush>[79:129:189]</Brush>
-              <ClientRectangle>3.2,0,3.2,0.8</ClientRectangle>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>9.6,0,9.4,0.6</ClientRectangle>
               <ComponentStyle>Blue Steel_Header1</ComponentStyle>
               <Conditions isList="true" count="0" />
               <Expressions isList="true" count="0" />
               <Font>Arial,9.75,Bold,Point,False,204</Font>
               <GrowToHeight>True</GrowToHeight>
               <HorAlignment>Center</HorAlignment>
-              <ID>1</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell2</Name>
+              <Name>HeaderText2</Name>
               <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>Apellidos</Text>
+              <Parent isRef="10" />
+              <Text>Total Horas Reservadas</Text>
               <TextBrush>White</TextBrush>
               <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </Data_Cell2>
-            <Data_Cell3 Ref="16" type="TableCell" isKey="true">
-              <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
-              <Brush>[79:129:189]</Brush>
-              <ClientRectangle>6.4,0,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Header1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,204</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>2</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell3</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>Email</Text>
-              <TextBrush>White</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell3>
-            <Data_Cell4 Ref="17" type="TableCell" isKey="true">
-              <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
-              <Brush>[79:129:189]</Brush>
-              <ClientRectangle>9.6,0,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Header1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,204</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>3</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell4</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>Fecha Reserva</Text>
-              <TextBrush>White</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell4>
-            <Data_Cell5 Ref="18" type="TableCell" isKey="true">
-              <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
-              <Brush>[79:129:189]</Brush>
-              <ClientRectangle>12.8,0,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Header1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,204</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>4</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell5</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>Hora Inicio</Text>
-              <TextBrush>White</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell5>
-            <Data_Cell6 Ref="19" type="TableCell" isKey="true">
-              <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
-              <Brush>[79:129:189]</Brush>
-              <ClientRectangle>16,0,3,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Header1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,9.75,Bold,Point,False,204</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>5</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell6</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>Hora Fin</Text>
-              <TextBrush>White</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell6>
-            <Data_Cell7 Ref="20" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>0,0.8,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>6</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell7</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>{FuenteDeDatos2.nombre_usuario}</Text>
-              <TextBrush>[0:0:0]</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell7>
-            <Data_Cell8 Ref="21" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>3.2,0.8,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>7</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell8</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>{FuenteDeDatos2.apellidos_usuario}</Text>
-              <TextBrush>[0:0:0]</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell8>
-            <Data_Cell9 Ref="22" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>6.4,0.8,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>8</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell9</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>{FuenteDeDatos2.email}</Text>
-              <TextBrush>[0:0:0]</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell9>
-            <Data_Cell10 Ref="23" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>9.6,0.8,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>9</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell10</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>{FuenteDeDatos2.fecha_reserva}</Text>
-              <TextBrush>[0:0:0]</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell10>
-            <Data_Cell11 Ref="24" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>12.8,0.8,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>10</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell11</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>{FuenteDeDatos2.hora_inicio}</Text>
-              <TextBrush>[0:0:0]</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell11>
-            <Data_Cell12 Ref="25" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>16,0.8,3,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <HorAlignment>Center</HorAlignment>
-              <ID>11</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell12</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <Text>{FuenteDeDatos2.hora_fin}</Text>
-              <TextBrush>[0:0:0]</TextBrush>
-              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell12>
-            <Data_Cell13 Ref="26" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,1.6,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <ID>12</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell13</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <TextBrush>[0:0:0]</TextBrush>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell13>
-            <Data_Cell14 Ref="27" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>3.2,1.6,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <ID>13</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell14</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <TextBrush>[0:0:0]</TextBrush>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell14>
-            <Data_Cell15 Ref="28" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>6.4,1.6,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <ID>14</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell15</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <TextBrush>[0:0:0]</TextBrush>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell15>
-            <Data_Cell16 Ref="29" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>9.6,1.6,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <ID>15</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell16</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <TextBrush>[0:0:0]</TextBrush>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell16>
-            <Data_Cell17 Ref="30" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>12.8,1.6,3.2,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <ID>16</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell17</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <TextBrush>[0:0:0]</TextBrush>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell17>
-            <Data_Cell18 Ref="31" type="TableCell" isKey="true">
-              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
-              <Brush>Transparent</Brush>
-              <ClientRectangle>16,1.6,3,0.8</ClientRectangle>
-              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
-              <Conditions isList="true" count="0" />
-              <Expressions isList="true" count="0" />
-              <Font>Arial,8</Font>
-              <HorAlignment>Center</HorAlignment>
-              <ID>17</ID>
-              <JoinCells isList="true" count="0" />
-              <Name>Data_Cell18</Name>
-              <Page isRef="4" />
-              <Parent isRef="13" />
-              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
-              <TextBrush>[0:0:0]</TextBrush>
-              <VertAlignment>Center</VertAlignment>
-            </Data_Cell18>
+            </HeaderText2>
           </Components>
           <Conditions isList="true" count="0" />
-          <DataRelationName isNull="true" />
+          <Expressions isList="true" count="0" />
+          <Name>Header</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+        </Header>
+        <Data Ref="13" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,9.8,19,0.6</ClientRectangle>
+          <Components isList="true" count="2">
+            <DataText1 Ref="14" type="Text" isKey="true">
+              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,9.6,0.6</ClientRectangle>
+              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <HorAlignment>Center</HorAlignment>
+              <Name>DataText1</Name>
+              <Page isRef="4" />
+              <Parent isRef="13" />
+              <Text>{FuenteDeDatos2.Usuario}</Text>
+              <TextBrush>[0:0:0]</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
+              <VertAlignment>Center</VertAlignment>
+            </DataText1>
+            <DataText2 Ref="15" type="Text" isKey="true">
+              <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>9.6,0,9.6,0.6</ClientRectangle>
+              <ComponentStyle>Blue Steel_Data1</ComponentStyle>
+              <Conditions isList="true" count="0" />
+              <Expressions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <HorAlignment>Center</HorAlignment>
+              <Name>DataText2</Name>
+              <Page isRef="4" />
+              <Parent isRef="13" />
+              <Text>{FuenteDeDatos2.Total_Horas_Reservadas}</Text>
+              <TextBrush>[0:0:0]</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
+              <VertAlignment>Center</VertAlignment>
+            </DataText2>
+          </Components>
+          <Conditions isList="true" count="0" />
           <DataSourceName>FuenteDeDatos2</DataSourceName>
           <EvenStyle>Blue Steel_Data1_Even Style</EvenStyle>
           <Expressions isList="true" count="0" />
           <FilterMode>Or</FilterMode>
           <Filters isList="true" count="0" />
-          <FooterRowsCount>1</FooterRowsCount>
-          <HeaderRowsCount>1</HeaderRowsCount>
           <Name>Data</Name>
-          <NumberID>18</NumberID>
           <OddStyle>Blue Steel_Data1_Odd Style</OddStyle>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <RowCount>3</RowCount>
           <Sort isList="true" count="0" />
         </Data>
-        <GroupFooter0 Ref="32" type="GroupFooterBand" isKey="true">
+        <Footer Ref="16" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,11.6,19,0.6</ClientRectangle>
+          <ClientRectangle>0,11.2,19,0.6</ClientRectangle>
           <Components isList="true" count="0" />
           <Conditions isList="true" count="0" />
           <Expressions isList="true" count="0" />
-          <Name>GroupFooter0</Name>
+          <Name>Footer</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-        </GroupFooter0>
-        <FooterBand1 Ref="33" type="FooterBand" isKey="true">
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0,13,19,0.8</ClientRectangle>
-          <Components isList="true" count="0" />
-          <Conditions isList="true" count="0" />
-          <Expressions isList="true" count="0" />
-          <Name>FooterBand1</Name>
-          <Page isRef="4" />
-          <Parent isRef="4" />
-        </FooterBand1>
+        </Footer>
       </Components>
       <Conditions isList="true" count="0" />
       <Expressions isList="true" count="0" />
-      <Guid>681a150903d94a1694f5014355cd070c</Guid>
+      <Guid>ab59b48adc494ac5bf249c5232b30753</Guid>
       <Margins>1,1,1,1</Margins>
       <Name>Page1</Name>
       <PageHeight>29.7</PageHeight>
@@ -1049,10 +705,10 @@ AABJRU5ErkJggg==</ImageBytes>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
   <ReportAuthor>Alfredo Pamplona</ReportAuthor>
-  <ReportChanged>5/17/2024 9:03:48 PM</ReportChanged>
-  <ReportCreated>5/14/2024 7:28:51 PM</ReportCreated>
-  <ReportFile>C:\Users\Alfredo\Desktop\ALFREDO\GradoSuperior\TFG\SportFIT_App\SportFIT\SportFIT\Reports\InformeAgrupacionReservas.mrt</ReportFile>
-  <ReportGuid>12f6ea2bb98d45a4a655b086182a4bd6</ReportGuid>
+  <ReportChanged>5/17/2024 7:17:38 PM</ReportChanged>
+  <ReportCreated>5/17/2024 7:06:26 PM</ReportCreated>
+  <ReportFile>C:\Users\Alfredo\Desktop\ALFREDO\GradoSuperior\TFG\SportFIT_App\SportFIT\SportFIT\Reports\InformeHorasUsuario.mrt</ReportFile>
+  <ReportGuid>052eb2a75eb44a6fbc92e3b7ae0032d4</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2024.2.5.0</ReportVersion>
@@ -1081,197 +737,197 @@ namespace Reports
 </Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="12">
-    <Blue_x0020_Steel_Report_Title1 Ref="34" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Report_Title1 Ref="17" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item34 Ref="35" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item17 Ref="18" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>ReportTitle</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item34>
+        </Item17>
       </Conditions>
       <Font>Arial,14,Bold</Font>
       <Name>Blue Steel_Report_Title1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[79:129:189]</TextBrush>
     </Blue_x0020_Steel_Report_Title1>
-    <Blue_x0020_Steel_Report_Title2 Ref="36" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Report_Title2 Ref="19" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item36 Ref="37" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item19 Ref="20" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>ReportTitle</Placement>
           <PlacementNestedLevel>2</PlacementNestedLevel>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item36>
+        </Item19>
       </Conditions>
       <Font>Arial,10,Bold</Font>
       <Name>Blue Steel_Report_Title2</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[79:129:189]</TextBrush>
     </Blue_x0020_Steel_Report_Title2>
-    <Blue_x0020_Steel_Report_Summary Ref="38" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Report_Summary Ref="21" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item38 Ref="39" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item21 Ref="22" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>ReportSummary</Placement>
           <Type>ComponentType, Placement</Type>
-        </Item38>
+        </Item21>
       </Conditions>
       <Font>Arial,10,Bold</Font>
       <Name>Blue Steel_Report_Summary</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[79:129:189]</TextBrush>
     </Blue_x0020_Steel_Report_Summary>
-    <Blue_x0020_Steel_Page_Header Ref="40" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Page_Header Ref="23" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item40 Ref="41" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item23 Ref="24" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>PageHeader</Placement>
           <Type>ComponentType, Placement</Type>
-        </Item40>
+        </Item23>
       </Conditions>
       <Font>Arial,10</Font>
       <Name>Blue Steel_Page_Header</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>Black</TextBrush>
     </Blue_x0020_Steel_Page_Header>
-    <Blue_x0020_Steel_Page_Footer Ref="42" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Page_Footer Ref="25" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item42 Ref="43" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item25 Ref="26" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>PageFooter</Placement>
           <Type>ComponentType, Placement</Type>
-        </Item42>
+        </Item25>
       </Conditions>
       <Font>Arial,10</Font>
       <Name>Blue Steel_Page_Footer</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>Black</TextBrush>
     </Blue_x0020_Steel_Page_Footer>
-    <Blue_x0020_Steel_Group_Header1 Ref="44" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Group_Header1 Ref="27" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>Top, Bottom;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item44 Ref="45" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item27 Ref="28" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>GroupHeader</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item44>
+        </Item27>
       </Conditions>
       <Font>Arial,13,Bold</Font>
       <Name>Blue Steel_Group_Header1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[79:129:189]</TextBrush>
     </Blue_x0020_Steel_Group_Header1>
-    <Blue_x0020_Steel_Group_Footer1 Ref="46" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Group_Footer1 Ref="29" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>Top, Bottom;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item46 Ref="47" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item29 Ref="30" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>GroupFooter</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item46>
+        </Item29>
       </Conditions>
       <Font>Arial,9.75,Bold,Point,False,204</Font>
       <Name>Blue Steel_Group_Footer1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[79:129:189]</TextBrush>
     </Blue_x0020_Steel_Group_Footer1>
-    <Blue_x0020_Steel_Header1 Ref="48" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Header1 Ref="31" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black;True</Border>
       <Brush>[79:129:189]</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item48 Ref="49" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item31 Ref="32" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>Header</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item48>
+        </Item31>
       </Conditions>
       <Font>Arial,9.75,Bold,Point,False,204</Font>
       <Name>Blue Steel_Header1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>White</TextBrush>
     </Blue_x0020_Steel_Header1>
-    <Blue_x0020_Steel_Data1 Ref="50" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Data1 Ref="33" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item50 Ref="51" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item33 Ref="34" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image, CheckBox</ComponentType>
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>Data</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item50>
+        </Item33>
       </Conditions>
       <Font>Arial,8</Font>
       <Name>Blue Steel_Data1</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[0:0:0]</TextBrush>
     </Blue_x0020_Steel_Data1>
-    <Blue_x0020_Steel_Data1_Odd_x0020_Style Ref="52" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Data1_Odd_x0020_Style Ref="35" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>[255:255:255]</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item52 Ref="53" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item35 Ref="36" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>DataOddStyle</Placement>
           <Type>Placement, PlacementNestedLevel</Type>
-        </Item52>
+        </Item35>
       </Conditions>
       <Font>Arial,8</Font>
       <Name>Blue Steel_Data1_Odd Style</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[0:0:0]</TextBrush>
     </Blue_x0020_Steel_Data1_Odd_x0020_Style>
-    <Blue_x0020_Steel_Data1_Even_x0020_Style Ref="54" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Data1_Even_x0020_Style Ref="37" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>None;[0:0:39];1;Solid;False;4;Black</Border>
       <Brush>[216:216:216]</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item54 Ref="55" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item37 Ref="38" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
           <Placement>DataEvenStyle</Placement>
           <Type>Placement, PlacementNestedLevel</Type>
-        </Item54>
+        </Item37>
       </Conditions>
       <Font>Arial,8</Font>
       <Name>Blue Steel_Data1_Even Style</Name>
       <NegativeTextBrush>Red</NegativeTextBrush>
       <TextBrush>[0:0:0]</TextBrush>
     </Blue_x0020_Steel_Data1_Even_x0020_Style>
-    <Blue_x0020_Steel_Footer1 Ref="56" type="Stimulsoft.Report.StiStyle" isKey="true">
+    <Blue_x0020_Steel_Footer1 Ref="39" type="Stimulsoft.Report.StiStyle" isKey="true">
       <Border>Top, Bottom;[0:0:39];2;Solid;False;4;Black</Border>
       <Brush>White</Brush>
       <CollectionName>Blue Steel</CollectionName>
       <Conditions isList="true" count="1">
-        <Item56 Ref="57" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+        <Item39 Ref="40" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
           <ComponentType>Text, Primitive, Image</ComponentType>
           <Placement>Footer</Placement>
           <Type>ComponentType, Placement, PlacementNestedLevel</Type>
-        </Item56>
+        </Item39>
       </Conditions>
       <Font>Arial,8.25,Bold,Point,False,204</Font>
       <Name>Blue Steel_Footer1</Name>

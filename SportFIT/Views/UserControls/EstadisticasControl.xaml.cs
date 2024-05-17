@@ -50,49 +50,6 @@ namespace SportFIT.Views.UserControls
             //Seleccionar el primer item por defecto
             comboBoxPueblos.SelectedIndex = 0;
 
-            //// Cargar datos de prueba en el gráfico de barras
-            //SeriesCollection barSeries = new SeriesCollection
-            //{
-            //    new ColumnSeries
-            //    {
-            //        Title = "Reservas Por Instalación",
-            //        Values = new ChartValues<int> { 10, 20, 30, 40 }
-            //    }
-            //};
-            //BarChart.Series = barSeries;
-            //// Cargar datos de prueba en el gráfico circular
-            //SeriesCollection pieSeries = new SeriesCollection
-            //{
-            //    new PieSeries
-            //    {
-            //        Title = "Media duración reservas Usuario",
-            //        Values = new ChartValues<double> { 30 },
-            //        DataLabels = true
-            //    },
-            //    new PieSeries
-            //    {
-            //        Title = "Media duración reservas Administrador",
-            //        Values = new ChartValues<double> { 50 },
-            //        DataLabels = true
-            //    },
-            //    new PieSeries
-            //    {
-            //        Title = "Media duración reservas Monitor",
-            //        Values = new ChartValues<double> { 20 },
-            //        DataLabels = true
-            //    }
-            //};
-            //PieChart.Series = pieSeries;
-            //// Cargar datos de prueba en el gráfico de líneas
-            //SeriesCollection lineSeries = new SeriesCollection
-            //{
-            //    new LineSeries
-            //    {
-            //        Title = "Tendencia mensual reservas",
-            //        Values = new ChartValues<double> { 10, 20, 15, 40, 80, 65, 95 } // Valores de ejemplo para la serie de línea
-            //    }
-            //};
-            //LineChart.Series = lineSeries;
         }
         private void CargarNombresPueblos()
         {
@@ -131,7 +88,7 @@ namespace SportFIT.Views.UserControls
                 ColumnSeries series = new ColumnSeries
                 {
 
-                    Title = "Reservas por Instalación: " + nombreInstalacion,
+                    Title = "Reservas " + nombreInstalacion,
                     Values = new ChartValues<int> { totalReservas }
                 };
 
@@ -167,47 +124,101 @@ namespace SportFIT.Views.UserControls
         }
         private void CargarDatosGraficoLineas()
         {
-            try
+
+            string selectedPueblo = comboBoxPueblos.SelectedItem.ToString();
+            DataTable tendenciaReservas = estadisticasController.TendenciaReservasMes(selectedPueblo);
+            List<string> meses = new List<string>();
+
+            LineChart.Series.Clear();
+
+            LineSeries series = new LineSeries
             {
-                string selectedPueblo = comboBoxPueblos.SelectedItem.ToString();
-                DataTable tendenciaReservas = estadisticasController.TendenciaReservasMes(selectedPueblo);
+                Title = "Reservas por mes",
+                Values = new ChartValues<int>(),
+                LabelPoint = point => $"{meses[(int)point.X]}: {point.Y} reservas" 
+            };
 
-                LineChart.Series.Clear();
-
-                LineSeries series = new LineSeries
-                {
-                    Title = "Tendencia mensual de reservas",
-                    Values = new ChartValues<int>()
-
-                };
-
-                foreach (DataRow row in tendenciaReservas.Rows)
-                {
-                    string mes = row["Mes"].ToString();
-                    int totalReservas = Convert.ToInt32(row["Total_Reservas"]);
-
-                    series.Values.Add(totalReservas);
-                }
-
-                LineChart.Series.Add(series);
-            }
-            catch (Exception ex)
+            foreach (DataRow row in tendenciaReservas.Rows)
             {
-                MessageBox.Show("Error al cargar los datos para el gráfico de líneas: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                string mes = row["Mes"].ToString();
+                int totalReservas = Convert.ToInt32(row["Total_Reservas"]);
+
+                series.Values.Add(totalReservas);
+                meses.Add(mes);
             }
+
+            LineChart.Series.Add(series);
+
+            LineChart.AxisX.Clear();
+            LineChart.AxisX.Add(new Axis
+            {
+                Labels = meses
+            });
         }
-
 
         private void InformeAgrupacionInstalaciones_Click(object sender, RoutedEventArgs e)
         {
-            // Crear una instancia del informe diseñado en Stimulsoft
             StiReport report = new StiReport();
 
-            // Cargar el informe desde el archivo
             report.Load("..\\..\\Reports\\InformeAgrupacionReservas.mrt");
             report["PuebloId"] = pueblosController.ObtenerPuebloSelected(comboBoxPueblos.Text);
             report.Compile();
             
+            report.Show();
+        }
+        private void AbrirPopUpFechas_Click(object sender,RoutedEventArgs e)
+        {
+            if (!popupFechas.IsOpen)
+            {
+                popupFechas.IsOpen = true;
+            }
+            else
+            {
+                popupFechas.IsOpen = false;
+            }
+        }
+
+        private void rangoFechas_Click(object sender, RoutedEventArgs e)
+        {
+            txtError.Text = "";
+
+            if (datePickerFechaDesde.SelectedDate == null || datePickerFechaHasta.SelectedDate == null)
+            {
+                txtError.Text = "Ambas fechas son obligatorias.";
+                return;
+            }
+
+            DateTime fechaDesde = datePickerFechaDesde.SelectedDate.Value;
+            DateTime fechaHasta = datePickerFechaHasta.SelectedDate.Value;
+
+            if (fechaHasta < fechaDesde)
+            {
+                txtError.Text = "La fecha fin no puede ser anterior a la fecha inicio.";
+                return;
+            }
+
+            StiReport report = new StiReport();
+
+            report.Load("..\\..\\Reports\\InformeRangoFechas.mrt");
+            report["IdPueblo"] = pueblosController.ObtenerPuebloSelected(comboBoxPueblos.Text);
+            report["FechaInicio"] = datePickerFechaDesde.SelectedDate.Value;
+            report["FechaFin"] = datePickerFechaHasta.SelectedDate.Value;
+            report.Compile();
+
+            report.Show();
+            popupFechas.IsOpen = false;
+        }
+
+
+        private void InformeHorasUsuario_Click(object sender, RoutedEventArgs e)
+        {
+            StiReport report = new StiReport();
+
+            // Cargar el informe desde el archivo
+            report.Load("..\\..\\Reports\\InformeHorasUsuario.mrt");
+            report["PuebloId"] = pueblosController.ObtenerPuebloSelected(comboBoxPueblos.Text);
+            report.Compile();
+
             report.Show();
         }
     }
