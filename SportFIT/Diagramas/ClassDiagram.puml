@@ -1,0 +1,201 @@
+﻿@startuml
+left to right direction
+
+package SportFIT.Models {
+    class AjustesViewModel {
+        + int IdUsuario
+        + string NombreUsuario
+        + string EmailUsuario
+        + string RolUsuario
+        + string ApellidoUsuario
+    }
+    
+    class InstalacionViewModel {
+        + int IdInstalacion
+        + string NombreInstalacion
+        + string TipoInstalacion
+        + string DireccionInstalacion
+    }
+    
+    class ReservaViewModel {
+        +IdReserva: int
+        +NombreUsuario: string
+        +FechaReserva: DateTime
+        +HoraInicio: TimeSpan
+        +Duracion: TimeSpan
+        +NombreInstalacion: string
+    }
+}
+
+package SportFIT.Controllers {
+    class AjustesController {
+        - string connectionString
+        + AjustesController(string connectionString)
+        + List<string> ObtenerRol()
+        + int ObtenerRolSelected(string rol)
+        + List<AjustesViewModel> ObtenerUsuarios()
+        + bool InsertarUsuario(string nombre, string apellidos, string email, string password, string rol, List<string> pueblos)
+        + bool EliminarUsuario(int idUsuario)
+        - int ObtenerIdRol(string rol)
+        - int ObtenerIdPueblo(string pueblo)
+    }
+
+    class EstadisticasController {
+        - string connectionString
+        + EstadisticasController(string connectionString)
+        + DataTable ObtenerReservasPorInstalacion(string pueblo)
+        + DataTable ObtenerPorcentajesReservas(string pueblo)
+        + DataTable TendenciaReservasMes(string pueblo)
+    }
+
+    class InstalacionesController {
+        - string connectionString
+        + InstalacionesController(string connectionString)
+        + List<InstalacionViewModel> ObtenerInstalaciones(int selectedPuebloId)
+        + bool InsertarInstalacion(int idPueblo, string instalacion, string direccion, string tipo)
+        + bool EliminarInstalacion(int idInstalacion)
+    }
+    
+    class LoginController {
+        - string _usuario
+        - string _password
+        - string _errorMessage
+        + string Usuario
+        + string Password
+        + string ErrorMessage
+        + event PropertyChangedEventHandler PropertyChanged
+        + LoginController()
+        + bool Login()
+        + int ObtenerIdUsuario(string usuario)
+        + static string HashPassword(string password)
+        + protected virtual void OnPropertyChanged(string propertyName)
+    }
+
+    class PueblosController {
+        - string connectionString
+        + PueblosController(string connectionString)
+        + int ObtenerPuebloSelected(string pueblo)
+        + List<string> ObtenerNombresPueblos(string usuario, string password)
+    }
+    class ReservasController {
+        -connectionString: string
+        +ReservasController(connectionString: string)
+        +ObtenerReservas(selectedPuebloId: int): List<ReservaViewModel>
+        +ObtenerUserSelected(user: string): int
+        +ObtenerUsuarios(selectedPuebloId: int): List<string>
+        +ObtenerInstalacionSelected(instalacion: string): int
+        +ObtenerInstalaciones(selectedPuebloId: int): List<string>
+        +ComprobarDisponibilidad(idInstalacion: int, fechaReserva: DateTime, horaInicio: TimeSpan, duracion: TimeSpan, idReservaExcluir: int?): string
+        +InsertarReserva(idUsuario: int, idInstalacion: int, fechaReserva: DateTime, horaInicio: TimeSpan, duracion: TimeSpan): bool
+        +ActualizarReserva(reservaActualizada: ReservaViewModel): bool
+        +EliminarReserva(idReserva: int): bool
+    }
+    class RoleController {
+        -connectionString: string
+        +RoleController(connectionString: string)
+        +GetUserRole(username: string): string
+    }
+}
+
+namespace SportFIT.Views{
+    class MainView {
+        - string currentUserRole
+        - string usuario
+        - string password
+        + MainView(userRole: string, usuario: string, password: string)
+        + RadioButton_Click(sender: object, e: RoutedEventArgs): void
+        + HiddenButtonsBasedOnRole(role: string): void
+    }
+    class LoginView {
+        - LoginController _viewModel
+        + LoginView()
+        + btnLogin_Click(sender: object, e: RoutedEventArgs): void
+    }
+}
+
+namespace SportFIT.Views.UserControls {
+    class AjustesControl {
+        - AjustesController ajustesController
+        - PueblosController pueblosController
+        - List<string> nombresPueblos
+        - string usuario
+        - string password
+        + AjustesControl(connectionString: string, usuario: string, password: string)
+        + CargarNombresRoles(): void
+        + ComboBoxRoles_SelectionChanged(sender: object, e: SelectionChangedEventArgs): void
+        + AjustesControl_Loaded(sender: object, e: RoutedEventArgs): void
+        + CargarUsuarios(): void
+        + DeleteUsuario_Click(sender: object, e: RoutedEventArgs): void
+        + btnPopUpAddUsuarios_Click(sender: object, e: RoutedEventArgs): void
+        + btnAddUsuarios(sender: object, e: RoutedEventArgs): void
+    }
+    
+    class EstadisticasControl {
+        - EstadisticasController estadisticasController
+        - PueblosController pueblosController
+        - string usuario
+        - string password
+        + EstadisticasControl(connectionString: string, usuario: string, password: string)
+        + CargarNombresPueblos(): void
+        + comboBoxPueblos_SelectionChanged(sender: object, e: SelectionChangedEventArgs): void
+        + CargarDatosGraficoBarras(): void
+        + CargarDatosGraficoRedondo(): void
+        + CargarDatosGraficoLineas(): void
+        + InformeAgrupacionInstalaciones_Click(sender: object, e: RoutedEventArgs): void
+        + AbrirPopUpFechas_Click(sender: object, e: RoutedEventArgs): void
+        + rangoFechas_Click(sender: object, e: RoutedEventArgs): void
+        + InformeHorasUsuario_Click(sender: object, e: RoutedEventArgs): void
+    }
+
+    class InstalacionesControl {
+        - PueblosController pueblosController
+        - InstalacionesController instalacionesController
+        - string usuario
+        - string password
+        + InstalacionesControl(connectionString: string, usuario: string, password: string)
+        + CargarNombresPueblos(): void
+        + comboBoxPueblos_SelectionChanged(sender: object, e: SelectionChangedEventArgs): void
+        + CargarInstalaciones(selectedPuebloId: int): void
+        + btnAddInstalaciones_Click(sender: object, e: RoutedEventArgs): void
+        + btnAddInstalacion(sender: object, e: RoutedEventArgs): void
+        + DeleteInstalacion_Click(sender: object, e: RoutedEventArgs): void
+    }
+    
+    class ReservasControl {
+            - PueblosController pueblosController
+            - ReservasController reservasController
+            - RoleController roleController
+            - string usuario
+            - string password
+            - bool editingMode = false
+            - int idReservaEditar = -1
+            + ReservasControl(connectionString: string, usuario: string, password: string)
+            + CargarNombresPueblos(): void
+            + comboBoxPueblos_SelectionChanged(sender: object, e: RoutedEventArgs): void
+            + CargarReservas(selectedPuebloId: int): void
+            + CargarNombreInstalaciones(selectedPuebloId: int): void
+            + ComboBoxInstalaciones_SelectionChanged(sender: object, e: RoutedEventArgs): void
+            + btnAdd_Click(sender: object, e: RoutedEventArgs): void
+            + IsValidDuration(input: string): bool
+            + IsValidTime(input: string): bool
+            + AddReserva_Click(sender: object, e: RoutedEventArgs): void
+            + btnEdit_Click(sender: object, e: RoutedEventArgs): void
+            + LimpiarCampos(): void
+            + DeleteReserva_Click(sender: object, e: RoutedEventArgs): void
+            + ConfirmarEliminacionReserva(idReserva: int): void
+    }
+}
+
+AjustesController --> AjustesViewModel
+InstalacionesController --> InstalacionViewModel
+ReservasController --> ReservaViewModel
+LoginView --> LoginController 
+AjustesControl --> PueblosController 
+EstadisticasControl --> EstadisticasController
+EstadisticasControl --> PueblosController
+InstalacionesControl --> PueblosController
+InstalacionesControl --> InstalacionesController
+ReservasControl --> PueblosController
+ReservasControl --> ReservasController
+ReservasControl --> RoleController
+@enduml
