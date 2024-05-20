@@ -1,0 +1,20 @@
+﻿@startuml
+left to right direction
+actor Usuario
+
+usecase "Iniciar Sesión" as UC_IniciarSesion
+
+package "Gestionar Reservas (de su Pueblo)" as UC_GestionarReservas {
+  usecase "Crear Reserva" as UC_CrearReserva
+  usecase "Modificar sus Reservas" as UC_ModificarReserva
+  usecase "Eliminar sus Reservas" as UC_EliminarReserva
+  usecase "Ver Todas las Reservas" as UC_VerTodasReservas
+}
+
+
+Usuario --> UC_IniciarSesion
+UC_IniciarSesion --> UC_CrearReserva
+UC_IniciarSesion --> UC_ModificarReserva
+UC_IniciarSesion --> UC_EliminarReserva
+UC_IniciarSesion --> UC_VerTodasReservas
+@enduml

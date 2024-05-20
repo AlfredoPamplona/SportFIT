@@ -1,0 +1,45 @@
+﻿@startuml
+left to right direction
+actor admin_pueblo
+
+usecase "Iniciar Sesión" as UC_IniciarSesion
+
+package "Gestionar Reservas (de su Pueblo)" as UC_GestionarReservas {
+  usecase "Insertar Reserva (de su Pueblo)" as UC_InsertarReserva
+  usecase "Modificar Reserva (de su Pueblo)" as UC_ModificarReserva
+  usecase "Ver Reserva (de su Pueblo)" as UC_VerReserva
+  usecase "Eliminar Reserva (de su Pueblo)" as UC_EliminarReserva
+}
+
+package "Gestionar Instalaciones (de su Pueblo)" as UC_GestionarInstalaciones {
+  usecase "Crear Instalación (de su Pueblo)" as UC_CrearInstalacion
+  usecase "Eliminar Instalación (de su Pueblo)" as UC_EliminarInstalacion
+  usecase "Ver Instalación (de su Pueblo)" as UC_VerInstalacion
+}
+
+package "Ver Estadísticas (de su Pueblo)" as UC_VerEstadisticas {
+  usecase "Ver Gráficas (de su Pueblo)" as UC_VerGraficas
+  usecase "Generar Informes (de su Pueblo)" as UC_GenerarInformes
+}
+
+package "Gestionar Usuarios (de su Pueblo)" as UC_GestionarUsuarios {
+  usecase "Crear Usuario (de su Pueblo)" as UC_CrearUsuario
+  usecase "Eliminar Usuario (de su Pueblo)" as UC_EliminarUsuario
+}
+
+admin_pueblo --> UC_IniciarSesion
+UC_IniciarSesion --> UC_InsertarReserva
+UC_IniciarSesion --> UC_ModificarReserva
+UC_IniciarSesion --> UC_VerReserva
+UC_IniciarSesion --> UC_EliminarReserva
+
+UC_IniciarSesion --> UC_CrearInstalacion
+UC_IniciarSesion --> UC_EliminarInstalacion
+UC_IniciarSesion --> UC_VerInstalacion
+
+UC_IniciarSesion --> UC_VerGraficas
+UC_IniciarSesion --> UC_GenerarInformes
+
+UC_IniciarSesion --> UC_CrearUsuario
+UC_IniciarSesion --> UC_EliminarUsuario
+@enduml

@@ -245,7 +245,11 @@
     <Resource Include="images\iconUser.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClassDiagram.puml" />
+    <Content Include="Diagramas\AdminPuebloUseCase.puml" />
+    <Content Include="Diagramas\AdminUseCase.puml" />
+    <Content Include="Diagramas\ClassDiagram.puml" />
+    <Content Include="Diagramas\MonitorUseCase.puml" />
+    <Content Include="Diagramas\UsuarioUseCase.puml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

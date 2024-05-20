@@ -1,0 +1,46 @@
+﻿@startuml
+left to right direction
+actor Administrador
+
+usecase "Iniciar Sesión" as UC_IniciarSesion
+
+package "Gestionar Reservas" as UC_GestionarReservas {
+  usecase "Insertar Reserva" as UC_InsertarReserva
+  usecase "Modificar Reserva" as UC_ModificarReserva
+  usecase "Ver Reserva" as UC_VerReserva
+  usecase "Eliminar Reserva" as UC_EliminarReserva
+}
+
+package "Gestionar Instalaciones" as UC_GestionarInstalaciones {
+  usecase "Crear Instalación" as UC_CrearInstalacion
+  usecase "Eliminar Instalación" as UC_EliminarInstalacion
+  usecase "Ver Instalación" as UC_VerInstalacion
+}
+
+package "Ver Estadísticas" as UC_VerEstadisticas {
+  usecase "Ver Gráficas" as UC_VerGraficas
+  usecase "Generar Informes" as UC_GenerarInformes
+}
+
+package "Gestionar Usuarios" as UC_GestionarUsuarios {
+  usecase "Crear Usuario" as UC_CrearUsuario
+  usecase "Eliminar Usuario" as UC_EliminarUsuario
+}
+
+Administrador --> UC_IniciarSesion
+UC_IniciarSesion --> UC_InsertarReserva
+UC_IniciarSesion --> UC_ModificarReserva
+UC_IniciarSesion --> UC_VerReserva
+UC_IniciarSesion --> UC_EliminarReserva
+
+UC_IniciarSesion --> UC_CrearInstalacion
+UC_IniciarSesion --> UC_EliminarInstalacion
+UC_IniciarSesion --> UC_VerInstalacion
+
+UC_IniciarSesion --> UC_VerGraficas
+UC_IniciarSesion --> UC_GenerarInformes
+
+UC_IniciarSesion --> UC_CrearUsuario
+UC_IniciarSesion --> UC_EliminarUsuario
+
+@enduml

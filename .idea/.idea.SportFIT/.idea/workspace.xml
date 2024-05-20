@@ -8,11 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="81557093-d738-4366-be31-ae678d0cf051" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/SportFIT/Diagramas/ClassDiagram.puml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SportFIT/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SportFIT/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SportFIT/Controllers/ReservasController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/Controllers/ReservasController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SportFIT/ClassDiagram.puml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SportFIT/SportFIT.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/SportFIT.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SportFIT/Views/MainView.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/Views/MainView.xaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SportFIT/Views/UserControls/ReservasControl.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SportFIT/Views/UserControls/ReservasControl.xaml.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +47,9 @@
     <setting file="mock://C:/Users/Alfredo/Desktop/ALFREDO/GradoSuperior/TFG/SportFIT_App/SportFIT/SportFIT/Views/MainView.xaml.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -63,7 +65,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Alfredo/Desktop/ALFREDO/GradoSuperior/TFG/Documentacion&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Alfredo/Desktop/ALFREDO/GradoSuperior/TFG/Documentacion/ClassDiagram2.png&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -123,6 +125,11 @@
       <workItem from="1714636030474" duration="18000" />
       <workItem from="1714636118634" duration="35000" />
       <workItem from="1714636167445" duration="52000" />
+      <workItem from="1715978446209" duration="2940000" />
+      <workItem from="1716019739298" duration="2292000" />
+      <workItem from="1716022253786" duration="2989000" />
+      <workItem from="1716036538998" duration="2248000" />
+      <workItem from="1716224120040" duration="67000" />
     </task>
     <task id="LOCAL-00001" summary="Asignación de los estilos del main y creacion del diagrama de clases">
       <option name="closed" value="true" />
