@@ -85,7 +85,7 @@ namespace SportFIT.Views.UserControls
                 string.IsNullOrWhiteSpace(TextBoxTipoInstalacion.Text) ||
                 string.IsNullOrWhiteSpace(TextBoxDireccion.Text))
             {
-                txtError.Text = "Por favor, completa todos los campos antes de agregar la reserva.";
+                txtError.Text = "Por favor, completa todos los campos antes de agregar la unstalación.";
                 return;
             }
             try
